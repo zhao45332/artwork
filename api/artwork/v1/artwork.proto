@@ -1,0 +1,192 @@
+syntax = "proto3";
+
+package artwork.v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "artwork/api/artwork/v1;v1";
+option java_multiple_files = true;
+option java_package = "dev.kratos.api.artwork.v1";
+option java_outer_classname = "ArtworkProtoV1";
+
+// 画作服务
+service ArtworkService {
+  // 创建画作
+  rpc CreateArtwork (CreateArtworkRequest) returns (CreateArtworkReply) {
+    option (google.api.http) = {
+      post: "/v1/artwork/artwork"
+      body: "*"
+    };
+  }
+
+  // 更新画作
+  rpc UpdateArtwork (UpdateArtworkRequest) returns (UpdateArtworkReply) {
+    option (google.api.http) = {
+      put: "/v1/artwork/artwork/{id}"
+      body: "*"
+    };
+  }
+
+  // 删除画作（软删除）
+  rpc DeleteArtwork (DeleteArtworkRequest) returns (DeleteArtworkReply) {
+    option (google.api.http) = {
+      delete: "/v1/artwork/artwork/{id}"
+    };
+  }
+
+  // 获取画作详情
+  rpc GetArtwork (GetArtworkRequest) returns (GetArtworkReply) {
+    option (google.api.http) = {
+      get: "/v1/artwork/artwork/{id}"
+    };
+  }
+
+  // 搜索画作
+  rpc SearchArtwork (SearchArtworkRequest) returns (SearchArtworkReply) {
+    option (google.api.http) = {
+      get: "/v1/artwork/artwork/search"
+    };
+  }
+
+  // 上传图片
+  rpc UploadImage (UploadImageRequest) returns (UploadImageReply) {
+    option (google.api.http) = {
+      post: "/v1/artwork/artwork/upload"
+      body: "*"
+    };
+  }
+}
+
+// 画作信息
+message ArtworkInfo {
+  int64 id = 1;
+  string title = 2;
+  string description = 3;
+  string author = 4;
+  int32 year = 5;
+  double width = 6;
+  double height = 7;
+  string material = 8;
+  double price = 9;
+  bool is_collected = 10;
+  string location = 11;
+  string style = 12;
+  string technique = 13;
+  string image_url = 14;
+  int64 category_id = 15;
+  string category_name = 16;
+  repeated string tags = 17;
+  google.protobuf.Timestamp created_at = 18;
+  google.protobuf.Timestamp updated_at = 19;
+}
+
+// 创建画作请求
+message CreateArtworkRequest {
+  string title = 1;
+  string description = 2;
+  string author = 3;
+  int32 year = 4;
+  double width = 5;
+  double height = 6;
+  string material = 7;
+  double price = 8;
+  bool is_collected = 9;
+  string location = 10;
+  string style = 11;
+  string technique = 12;
+  string image_url = 13;
+  int64 category_id = 14;
+  repeated string tags = 15;
+}
+
+// 创建画作响应
+message CreateArtworkReply {
+  ArtworkInfo artwork = 1;
+}
+
+// 更新画作请求
+message UpdateArtworkRequest {
+  int64 id = 1;
+  string title = 2;
+  string description = 3;
+  string author = 4;
+  int32 year = 5;
+  double width = 6;
+  double height = 7;
+  string material = 8;
+  double price = 9;
+  bool is_collected = 10;
+  string location = 11;
+  string style = 12;
+  string technique = 13;
+  string image_url = 14;
+  int64 category_id = 15;
+  repeated string tags = 16;
+}
+
+// 更新画作响应
+message UpdateArtworkReply {
+  ArtworkInfo artwork = 1;
+}
+
+// 删除画作请求
+message DeleteArtworkRequest {
+  int64 id = 1;
+}
+
+// 删除画作响应
+message DeleteArtworkReply {
+  bool success = 1;
+}
+
+// 获取画作请求
+message GetArtworkRequest {
+  int64 id = 1;
+}
+
+// 获取画作响应
+message GetArtworkReply {
+  ArtworkInfo artwork = 1;
+}
+
+// 搜索画作请求
+message SearchArtworkRequest {
+  string keyword = 1;           // 关键词（标题、描述、作者）
+  int32 year_from = 2;           // 起始年份
+  int32 year_to = 3;             // 结束年份
+  double width_min = 4;          // 最小宽度
+  double width_max = 5;          // 最大宽度
+  double height_min = 6;         // 最小高度
+  double height_max = 7;         // 最大高度
+  double price_min = 8;          // 最低价格
+  double price_max = 9;          // 最高价格
+  int64 category_id = 10;        // 分类ID
+  repeated string tags = 11;     // 标签列表
+  int32 page = 12;               // 页码（从1开始）
+  int32 page_size = 13;          // 每页数量
+  string sort_by = 14;           // 排序字段（created_at, updated_at, title, price）
+  string sort_order = 15;        // 排序方向（asc, desc）
+}
+
+// 搜索画作响应
+message SearchArtworkReply {
+  repeated ArtworkInfo artworks = 1;
+  int32 total = 2;               // 总数
+  int32 page = 3;                // 当前页码
+  int32 page_size = 4;            // 每页数量
+}
+
+// 上传图片请求
+message UploadImageRequest {
+  string filename = 1;           // 文件名
+  bytes content = 2;             // 图片内容
+  string content_type = 3;        // 内容类型（如 image/jpeg）
+}
+
+// 上传图片响应
+message UploadImageReply {
+  string url = 1;                 // 图片URL
+  string filename = 2;            // 文件名
+}
+

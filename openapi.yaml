@@ -1,0 +1,450 @@
+# Generated with protoc-gen-openapi
+# https://github.com/google/gnostic/tree/master/cmd/protoc-gen-openapi
+
+openapi: 3.0.3
+info:
+    title: ArtworkService API
+    description: 画作服务
+    version: 0.0.1
+paths:
+    /v1/artwork/artwork:
+        post:
+            tags:
+                - ArtworkService
+            description: 创建画作
+            operationId: ArtworkService_CreateArtwork
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateArtworkRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CreateArtworkReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/artwork/artwork/search:
+        get:
+            tags:
+                - ArtworkService
+            description: 搜索画作
+            operationId: ArtworkService_SearchArtwork
+            parameters:
+                - name: keyword
+                  in: query
+                  schema:
+                    type: string
+                - name: yearFrom
+                  in: query
+                  schema:
+                    type: integer
+                    format: int32
+                - name: yearTo
+                  in: query
+                  schema:
+                    type: integer
+                    format: int32
+                - name: widthMin
+                  in: query
+                  schema:
+                    type: number
+                    format: double
+                - name: widthMax
+                  in: query
+                  schema:
+                    type: number
+                    format: double
+                - name: heightMin
+                  in: query
+                  schema:
+                    type: number
+                    format: double
+                - name: heightMax
+                  in: query
+                  schema:
+                    type: number
+                    format: double
+                - name: priceMin
+                  in: query
+                  schema:
+                    type: number
+                    format: double
+                - name: priceMax
+                  in: query
+                  schema:
+                    type: number
+                    format: double
+                - name: categoryId
+                  in: query
+                  schema:
+                    type: string
+                - name: tags
+                  in: query
+                  schema:
+                    type: array
+                    items:
+                        type: string
+                - name: page
+                  in: query
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pageSize
+                  in: query
+                  schema:
+                    type: integer
+                    format: int32
+                - name: sortBy
+                  in: query
+                  schema:
+                    type: string
+                - name: sortOrder
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/SearchArtworkReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/artwork/artwork/upload:
+        post:
+            tags:
+                - ArtworkService
+            description: 上传图片
+            operationId: ArtworkService_UploadImage
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UploadImageRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/UploadImageReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/artwork/artwork/{id}:
+        get:
+            tags:
+                - ArtworkService
+            description: 获取画作详情
+            operationId: ArtworkService_GetArtwork
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/GetArtworkReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        put:
+            tags:
+                - ArtworkService
+            description: 更新画作
+            operationId: ArtworkService_UpdateArtwork
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateArtworkRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/UpdateArtworkReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        delete:
+            tags:
+                - ArtworkService
+            description: 删除画作（软删除）
+            operationId: ArtworkService_DeleteArtwork
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/DeleteArtworkReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+components:
+    schemas:
+        ArtworkInfo:
+            type: object
+            properties:
+                id:
+                    type: string
+                title:
+                    type: string
+                description:
+                    type: string
+                author:
+                    type: string
+                year:
+                    type: integer
+                    format: int32
+                width:
+                    type: number
+                    format: double
+                height:
+                    type: number
+                    format: double
+                material:
+                    type: string
+                price:
+                    type: number
+                    format: double
+                isCollected:
+                    type: boolean
+                location:
+                    type: string
+                style:
+                    type: string
+                technique:
+                    type: string
+                imageUrl:
+                    type: string
+                categoryId:
+                    type: string
+                categoryName:
+                    type: string
+                tags:
+                    type: array
+                    items:
+                        type: string
+                createdAt:
+                    type: string
+                    format: date-time
+                updatedAt:
+                    type: string
+                    format: date-time
+            description: 画作信息
+        CreateArtworkReply:
+            type: object
+            properties:
+                artwork:
+                    $ref: '#/components/schemas/ArtworkInfo'
+            description: 创建画作响应
+        CreateArtworkRequest:
+            type: object
+            properties:
+                title:
+                    type: string
+                description:
+                    type: string
+                author:
+                    type: string
+                year:
+                    type: integer
+                    format: int32
+                width:
+                    type: number
+                    format: double
+                height:
+                    type: number
+                    format: double
+                material:
+                    type: string
+                price:
+                    type: number
+                    format: double
+                isCollected:
+                    type: boolean
+                location:
+                    type: string
+                style:
+                    type: string
+                technique:
+                    type: string
+                imageUrl:
+                    type: string
+                categoryId:
+                    type: string
+                tags:
+                    type: array
+                    items:
+                        type: string
+            description: 创建画作请求
+        DeleteArtworkReply:
+            type: object
+            properties:
+                success:
+                    type: boolean
+            description: 删除画作响应
+        GetArtworkReply:
+            type: object
+            properties:
+                artwork:
+                    $ref: '#/components/schemas/ArtworkInfo'
+            description: 获取画作响应
+        GoogleProtobufAny:
+            type: object
+            properties:
+                '@type':
+                    type: string
+                    description: The type of the serialized message.
+            additionalProperties: true
+            description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
+        SearchArtworkReply:
+            type: object
+            properties:
+                artworks:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/ArtworkInfo'
+                total:
+                    type: integer
+                    format: int32
+                page:
+                    type: integer
+                    format: int32
+                pageSize:
+                    type: integer
+                    format: int32
+            description: 搜索画作响应
+        Status:
+            type: object
+            properties:
+                code:
+                    type: integer
+                    description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
+                    format: int32
+                message:
+                    type: string
+                    description: A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
+                details:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/GoogleProtobufAny'
+                    description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
+            description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
+        UpdateArtworkReply:
+            type: object
+            properties:
+                artwork:
+                    $ref: '#/components/schemas/ArtworkInfo'
+            description: 更新画作响应
+        UpdateArtworkRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+                title:
+                    type: string
+                description:
+                    type: string
+                author:
+                    type: string
+                year:
+                    type: integer
+                    format: int32
+                width:
+                    type: number
+                    format: double
+                height:
+                    type: number
+                    format: double
+                material:
+                    type: string
+                price:
+                    type: number
+                    format: double
+                isCollected:
+                    type: boolean
+                location:
+                    type: string
+                style:
+                    type: string
+                technique:
+                    type: string
+                imageUrl:
+                    type: string
+                categoryId:
+                    type: string
+                tags:
+                    type: array
+                    items:
+                        type: string
+            description: 更新画作请求
+        UploadImageReply:
+            type: object
+            properties:
+                url:
+                    type: string
+                filename:
+                    type: string
+            description: 上传图片响应
+        UploadImageRequest:
+            type: object
+            properties:
+                filename:
+                    type: string
+                content:
+                    type: string
+                    format: bytes
+                contentType:
+                    type: string
+            description: 上传图片请求
+tags:
+    - name: ArtworkService
