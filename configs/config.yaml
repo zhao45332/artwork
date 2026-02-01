@@ -1,0 +1,24 @@
+server:
+  http:
+    addr: 0.0.0.0:8000
+    timeout: 1s
+  grpc:
+    addr: 0.0.0.0:9000
+    timeout: 1s
+data:
+  database:
+    driver: mysql
+    source: root:root@tcp(127.0.0.1:3306)/artwork?charset=utf8mb4&parseTime=True&loc=Local
+  redis:
+    network: tcp
+    addr: 127.0.0.1:6379
+    password: ""
+    db: 0
+    read_timeout: 0.2s
+    write_timeout: 0.2s
+  minio:
+    endpoint: 127.0.0.1:9000
+    access_key_id: admin
+    secret_access_key: GXXu=h~9)_tQ%DHHsGqi
+    use_ssl: false
+    bucket_name: artwork
