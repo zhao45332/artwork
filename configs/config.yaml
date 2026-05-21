@@ -14,12 +14,12 @@ data:
     addr: 127.0.0.1:6379
     password: ""
     db: 0
-    read_timeout: 0.2s
-    write_timeout: 0.2s
+    read_timeout: 999s
+    write_timeout: 999s
   minio:
     endpoint: 127.0.0.1:9000
-    access_key_id: admin
-    secret_access_key: GXXu=h~9)_tQ%DHHsGqi
+    access_key_id: minioadmin
+    secret_access_key: minioadmin
     use_ssl: false
     bucket_name: artwork
   auth:
