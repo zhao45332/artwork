@@ -9,14 +9,16 @@ import (
 )
 
 type UserUsecase struct {
-	userRepo UserRepo
-	log      *log.Helper
+	userRepo     UserRepo
+	categoryRepo CategoryRepo
+	log          *log.Helper
 }
 
-func NewUserUsecase(userRepo UserRepo, logger log.Logger) *UserUsecase {
+func NewUserUsecase(userRepo UserRepo, categoryRepo CategoryRepo, logger log.Logger) *UserUsecase {
 	return &UserUsecase{
-		userRepo: userRepo,
-		log:      log.NewHelper(logger),
+		userRepo:     userRepo,
+		categoryRepo: categoryRepo,
+		log:          log.NewHelper(logger),
 	}
 }
 
@@ -54,4 +56,8 @@ func (uc *UserUsecase) UpdateMyProfile(ctx context.Context, userID int64, nickna
 		return nil, nil, err
 	}
 	return updated, stats, nil
+}
+
+func (uc *UserUsecase) ListCategories(ctx context.Context) ([]*Category, error) {
+	return uc.categoryRepo.List(ctx)
 }

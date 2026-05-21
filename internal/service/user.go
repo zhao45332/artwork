@@ -42,6 +42,22 @@ func (s *UserService) UpdateMyProfile(ctx context.Context, req *userv1.UpdateMyP
 	return &userv1.UpdateMyProfileReply{User: s.toUserProfile(user, stats)}, nil
 }
 
+func (s *UserService) ListCategories(ctx context.Context, _ *userv1.ListCategoriesRequest) (*userv1.ListCategoriesReply, error) {
+	categories, err := s.uc.ListCategories(ctx)
+	if err != nil {
+		return nil, err
+	}
+	items := make([]*userv1.CategoryInfo, 0, len(categories))
+	for _, category := range categories {
+		items = append(items, &userv1.CategoryInfo{
+			Id:          category.ID,
+			Name:        category.Name,
+			Description: category.Description,
+		})
+	}
+	return &userv1.ListCategoriesReply{Categories: items}, nil
+}
+
 func (s *UserService) toUserProfile(user *biz.User, stats *biz.UserStats) *userv1.UserProfile {
 	profile := &userv1.UserProfile{
 		Id:                    user.ID,

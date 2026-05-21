@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-http v2.9.2
 // - protoc             v7.34.0--rc1
-// source: api/artwork/v1/artwork.proto
+// source: artwork/v1/artwork.proto
 
 package v1
 
@@ -22,33 +22,30 @@ const _ = http.SupportPackageIsVersion1
 const OperationArtworkServiceCreateArtwork = "/artwork.v1.ArtworkService/CreateArtwork"
 const OperationArtworkServiceDeleteArtwork = "/artwork.v1.ArtworkService/DeleteArtwork"
 const OperationArtworkServiceGetArtwork = "/artwork.v1.ArtworkService/GetArtwork"
+const OperationArtworkServiceGetMyArtworks = "/artwork.v1.ArtworkService/GetMyArtworks"
 const OperationArtworkServiceSearchArtwork = "/artwork.v1.ArtworkService/SearchArtwork"
 const OperationArtworkServiceUpdateArtwork = "/artwork.v1.ArtworkService/UpdateArtwork"
 const OperationArtworkServiceUploadImage = "/artwork.v1.ArtworkService/UploadImage"
 
 type ArtworkServiceHTTPServer interface {
-	// CreateArtwork 创建画作
 	CreateArtwork(context.Context, *CreateArtworkRequest) (*CreateArtworkReply, error)
-	// DeleteArtwork 删除画作（软删除）
 	DeleteArtwork(context.Context, *DeleteArtworkRequest) (*DeleteArtworkReply, error)
-	// GetArtwork 获取画作详情
 	GetArtwork(context.Context, *GetArtworkRequest) (*GetArtworkReply, error)
-	// SearchArtwork 搜索画作
+	GetMyArtworks(context.Context, *GetMyArtworksRequest) (*SearchArtworkReply, error)
 	SearchArtwork(context.Context, *SearchArtworkRequest) (*SearchArtworkReply, error)
-	// UpdateArtwork 更新画作
 	UpdateArtwork(context.Context, *UpdateArtworkRequest) (*UpdateArtworkReply, error)
-	// UploadImage 上传图片
 	UploadImage(context.Context, *UploadImageRequest) (*UploadImageReply, error)
 }
 
 func RegisterArtworkServiceHTTPServer(s *http.Server, srv ArtworkServiceHTTPServer) {
 	r := s.Route("/")
-	r.POST("/v1/artwork/artwork", _ArtworkService_CreateArtwork0_HTTP_Handler(srv))
-	r.PUT("/v1/artwork/artwork/{id}", _ArtworkService_UpdateArtwork0_HTTP_Handler(srv))
-	r.DELETE("/v1/artwork/artwork/{id}", _ArtworkService_DeleteArtwork0_HTTP_Handler(srv))
-	r.GET("/v1/artwork/artwork/{id}", _ArtworkService_GetArtwork0_HTTP_Handler(srv))
-	r.GET("/v1/artwork/artwork/search", _ArtworkService_SearchArtwork0_HTTP_Handler(srv))
-	r.POST("/v1/artwork/artwork/upload", _ArtworkService_UploadImage0_HTTP_Handler(srv))
+	r.POST("/v1/artworks", _ArtworkService_CreateArtwork0_HTTP_Handler(srv))
+	r.PUT("/v1/artworks/{id}", _ArtworkService_UpdateArtwork0_HTTP_Handler(srv))
+	r.DELETE("/v1/artworks/{id}", _ArtworkService_DeleteArtwork0_HTTP_Handler(srv))
+	r.GET("/v1/artworks/{id}", _ArtworkService_GetArtwork0_HTTP_Handler(srv))
+	r.GET("/v1/artworks", _ArtworkService_SearchArtwork0_HTTP_Handler(srv))
+	r.GET("/v1/me/artworks", _ArtworkService_GetMyArtworks0_HTTP_Handler(srv))
+	r.POST("/v1/artworks/upload", _ArtworkService_UploadImage0_HTTP_Handler(srv))
 }
 
 func _ArtworkService_CreateArtwork0_HTTP_Handler(srv ArtworkServiceHTTPServer) func(ctx http.Context) error {
@@ -161,6 +158,25 @@ func _ArtworkService_SearchArtwork0_HTTP_Handler(srv ArtworkServiceHTTPServer) f
 	}
 }
 
+func _ArtworkService_GetMyArtworks0_HTTP_Handler(srv ArtworkServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in GetMyArtworksRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationArtworkServiceGetMyArtworks)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.GetMyArtworks(ctx, req.(*GetMyArtworksRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*SearchArtworkReply)
+		return ctx.Result(200, reply)
+	}
+}
+
 func _ArtworkService_UploadImage0_HTTP_Handler(srv ArtworkServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in UploadImageRequest
@@ -184,17 +200,12 @@ func _ArtworkService_UploadImage0_HTTP_Handler(srv ArtworkServiceHTTPServer) fun
 }
 
 type ArtworkServiceHTTPClient interface {
-	// CreateArtwork 创建画作
 	CreateArtwork(ctx context.Context, req *CreateArtworkRequest, opts ...http.CallOption) (rsp *CreateArtworkReply, err error)
-	// DeleteArtwork 删除画作（软删除）
 	DeleteArtwork(ctx context.Context, req *DeleteArtworkRequest, opts ...http.CallOption) (rsp *DeleteArtworkReply, err error)
-	// GetArtwork 获取画作详情
 	GetArtwork(ctx context.Context, req *GetArtworkRequest, opts ...http.CallOption) (rsp *GetArtworkReply, err error)
-	// SearchArtwork 搜索画作
+	GetMyArtworks(ctx context.Context, req *GetMyArtworksRequest, opts ...http.CallOption) (rsp *SearchArtworkReply, err error)
 	SearchArtwork(ctx context.Context, req *SearchArtworkRequest, opts ...http.CallOption) (rsp *SearchArtworkReply, err error)
-	// UpdateArtwork 更新画作
 	UpdateArtwork(ctx context.Context, req *UpdateArtworkRequest, opts ...http.CallOption) (rsp *UpdateArtworkReply, err error)
-	// UploadImage 上传图片
 	UploadImage(ctx context.Context, req *UploadImageRequest, opts ...http.CallOption) (rsp *UploadImageReply, err error)
 }
 
@@ -206,10 +217,9 @@ func NewArtworkServiceHTTPClient(client *http.Client) ArtworkServiceHTTPClient {
 	return &ArtworkServiceHTTPClientImpl{client}
 }
 
-// CreateArtwork 创建画作
 func (c *ArtworkServiceHTTPClientImpl) CreateArtwork(ctx context.Context, in *CreateArtworkRequest, opts ...http.CallOption) (*CreateArtworkReply, error) {
 	var out CreateArtworkReply
-	pattern := "/v1/artwork/artwork"
+	pattern := "/v1/artworks"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationArtworkServiceCreateArtwork))
 	opts = append(opts, http.PathTemplate(pattern))
@@ -220,10 +230,9 @@ func (c *ArtworkServiceHTTPClientImpl) CreateArtwork(ctx context.Context, in *Cr
 	return &out, nil
 }
 
-// DeleteArtwork 删除画作（软删除）
 func (c *ArtworkServiceHTTPClientImpl) DeleteArtwork(ctx context.Context, in *DeleteArtworkRequest, opts ...http.CallOption) (*DeleteArtworkReply, error) {
 	var out DeleteArtworkReply
-	pattern := "/v1/artwork/artwork/{id}"
+	pattern := "/v1/artworks/{id}"
 	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation(OperationArtworkServiceDeleteArtwork))
 	opts = append(opts, http.PathTemplate(pattern))
@@ -234,10 +243,9 @@ func (c *ArtworkServiceHTTPClientImpl) DeleteArtwork(ctx context.Context, in *De
 	return &out, nil
 }
 
-// GetArtwork 获取画作详情
 func (c *ArtworkServiceHTTPClientImpl) GetArtwork(ctx context.Context, in *GetArtworkRequest, opts ...http.CallOption) (*GetArtworkReply, error) {
 	var out GetArtworkReply
-	pattern := "/v1/artwork/artwork/{id}"
+	pattern := "/v1/artworks/{id}"
 	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation(OperationArtworkServiceGetArtwork))
 	opts = append(opts, http.PathTemplate(pattern))
@@ -248,10 +256,22 @@ func (c *ArtworkServiceHTTPClientImpl) GetArtwork(ctx context.Context, in *GetAr
 	return &out, nil
 }
 
-// SearchArtwork 搜索画作
+func (c *ArtworkServiceHTTPClientImpl) GetMyArtworks(ctx context.Context, in *GetMyArtworksRequest, opts ...http.CallOption) (*SearchArtworkReply, error) {
+	var out SearchArtworkReply
+	pattern := "/v1/me/artworks"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationArtworkServiceGetMyArtworks))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
 func (c *ArtworkServiceHTTPClientImpl) SearchArtwork(ctx context.Context, in *SearchArtworkRequest, opts ...http.CallOption) (*SearchArtworkReply, error) {
 	var out SearchArtworkReply
-	pattern := "/v1/artwork/artwork/search"
+	pattern := "/v1/artworks"
 	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation(OperationArtworkServiceSearchArtwork))
 	opts = append(opts, http.PathTemplate(pattern))
@@ -262,10 +282,9 @@ func (c *ArtworkServiceHTTPClientImpl) SearchArtwork(ctx context.Context, in *Se
 	return &out, nil
 }
 
-// UpdateArtwork 更新画作
 func (c *ArtworkServiceHTTPClientImpl) UpdateArtwork(ctx context.Context, in *UpdateArtworkRequest, opts ...http.CallOption) (*UpdateArtworkReply, error) {
 	var out UpdateArtworkReply
-	pattern := "/v1/artwork/artwork/{id}"
+	pattern := "/v1/artworks/{id}"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationArtworkServiceUpdateArtwork))
 	opts = append(opts, http.PathTemplate(pattern))
@@ -276,10 +295,9 @@ func (c *ArtworkServiceHTTPClientImpl) UpdateArtwork(ctx context.Context, in *Up
 	return &out, nil
 }
 
-// UploadImage 上传图片
 func (c *ArtworkServiceHTTPClientImpl) UploadImage(ctx context.Context, in *UploadImageRequest, opts ...http.CallOption) (*UploadImageReply, error) {
 	var out UploadImageReply
-	pattern := "/v1/artwork/artwork/upload"
+	pattern := "/v1/artworks/upload"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationArtworkServiceUploadImage))
 	opts = append(opts, http.PathTemplate(pattern))

@@ -6,64 +6,114 @@ info:
     title: ""
     version: 0.0.1
 paths:
-    /v1/auth/login:
-        post:
-            tags:
-                - AuthService
-            operationId: AuthService_Login
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/auth.v1.LoginRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/auth.v1.AuthReply'
-    /v1/auth/logout:
-        post:
-            tags:
-                - AuthService
-            operationId: AuthService_Logout
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/auth.v1.LogoutRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/auth.v1.LogoutReply'
-    /v1/auth/me:
+    /v1/artworks:
         get:
             tags:
-                - AuthService
-            operationId: AuthService_GetCurrentUser
+                - ArtworkService
+            operationId: ArtworkService_SearchArtwork
+            parameters:
+                - name: keyword
+                  in: query
+                  schema:
+                    type: string
+                - name: yearFrom
+                  in: query
+                  schema:
+                    type: integer
+                    format: int32
+                - name: yearTo
+                  in: query
+                  schema:
+                    type: integer
+                    format: int32
+                - name: widthMin
+                  in: query
+                  schema:
+                    type: number
+                    format: double
+                - name: widthMax
+                  in: query
+                  schema:
+                    type: number
+                    format: double
+                - name: heightMin
+                  in: query
+                  schema:
+                    type: number
+                    format: double
+                - name: heightMax
+                  in: query
+                  schema:
+                    type: number
+                    format: double
+                - name: priceMin
+                  in: query
+                  schema:
+                    type: number
+                    format: double
+                - name: priceMax
+                  in: query
+                  schema:
+                    type: number
+                    format: double
+                - name: categoryId
+                  in: query
+                  schema:
+                    type: string
+                - name: tags
+                  in: query
+                  schema:
+                    type: array
+                    items:
+                        type: string
+                - name: page
+                  in: query
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pageSize
+                  in: query
+                  schema:
+                    type: integer
+                    format: int32
+                - name: sortBy
+                  in: query
+                  schema:
+                    type: string
+                - name: sortOrder
+                  in: query
+                  schema:
+                    type: string
+                - name: userId
+                  in: query
+                  schema:
+                    type: string
+                - name: visibility
+                  in: query
+                  schema:
+                    type: integer
+                    format: int32
+                - name: status
+                  in: query
+                  schema:
+                    type: integer
+                    format: int32
             responses:
                 "200":
                     description: OK
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/auth.v1.GetCurrentUserReply'
-    /v1/auth/refresh:
+                                $ref: '#/components/schemas/artwork.v1.SearchArtworkReply'
         post:
             tags:
-                - AuthService
-            operationId: AuthService_RefreshToken
+                - ArtworkService
+            operationId: ArtworkService_CreateArtwork
             requestBody:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/auth.v1.RefreshTokenRequest'
+                            $ref: '#/components/schemas/artwork.v1.CreateArtworkRequest'
                 required: true
             responses:
                 "200":
@@ -71,17 +121,17 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/auth.v1.AuthReply'
-    /v1/auth/register:
+                                $ref: '#/components/schemas/artwork.v1.CreateArtworkReply'
+    /v1/artworks/upload:
         post:
             tags:
-                - AuthService
-            operationId: AuthService_Register
+                - ArtworkService
+            operationId: ArtworkService_UploadImage
             requestBody:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/auth.v1.RegisterRequest'
+                            $ref: '#/components/schemas/artwork.v1.UploadImageRequest'
                 required: true
             responses:
                 "200":
@@ -89,7 +139,105 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/auth.v1.AuthReply'
+                                $ref: '#/components/schemas/artwork.v1.UploadImageReply'
+    /v1/artworks/{id}:
+        get:
+            tags:
+                - ArtworkService
+            operationId: ArtworkService_GetArtwork
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/artwork.v1.GetArtworkReply'
+        put:
+            tags:
+                - ArtworkService
+            operationId: ArtworkService_UpdateArtwork
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/artwork.v1.UpdateArtworkRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/artwork.v1.UpdateArtworkReply'
+        delete:
+            tags:
+                - ArtworkService
+            operationId: ArtworkService_DeleteArtwork
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/artwork.v1.DeleteArtworkReply'
+    /v1/categories:
+        get:
+            tags:
+                - UserService
+            operationId: UserService_ListCategories
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/user.v1.ListCategoriesReply'
+    /v1/me/artworks:
+        get:
+            tags:
+                - ArtworkService
+            operationId: ArtworkService_GetMyArtworks
+            parameters:
+                - name: page
+                  in: query
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pageSize
+                  in: query
+                  schema:
+                    type: integer
+                    format: int32
+                - name: status
+                  in: query
+                  schema:
+                    type: integer
+                    format: int32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/artwork.v1.SearchArtworkReply'
     /v1/users/me:
         put:
             tags:
@@ -128,87 +276,278 @@ paths:
                                 $ref: '#/components/schemas/user.v1.GetUserProfileReply'
 components:
     schemas:
-        auth.v1.AuthReply:
-            type: object
-            properties:
-                accessToken:
-                    type: string
-                refreshToken:
-                    type: string
-                expiresIn:
-                    type: string
-                user:
-                    $ref: '#/components/schemas/auth.v1.UserInfo'
-        auth.v1.GetCurrentUserReply:
-            type: object
-            properties:
-                user:
-                    $ref: '#/components/schemas/auth.v1.UserInfo'
-        auth.v1.LoginRequest:
-            type: object
-            properties:
-                account:
-                    type: string
-                password:
-                    type: string
-        auth.v1.LogoutReply:
-            type: object
-            properties:
-                success:
-                    type: boolean
-        auth.v1.LogoutRequest:
-            type: object
-            properties:
-                refreshToken:
-                    type: string
-        auth.v1.RefreshTokenRequest:
-            type: object
-            properties:
-                refreshToken:
-                    type: string
-        auth.v1.RegisterRequest:
-            type: object
-            properties:
-                username:
-                    type: string
-                password:
-                    type: string
-                nickname:
-                    type: string
-                email:
-                    type: string
-        auth.v1.UserInfo:
+        artwork.v1.ArtworkImage:
             type: object
             properties:
                 id:
                     type: string
-                username:
+                url:
                     type: string
-                nickname:
-                    type: string
-                avatarUrl:
-                    type: string
-                bio:
-                    type: string
-                email:
-                    type: string
-                role:
+                isCover:
+                    type: boolean
+                sortOrder:
                     type: integer
                     format: int32
+        artwork.v1.ArtworkInfo:
+            type: object
+            properties:
+                id:
+                    type: string
+                userId:
+                    type: string
+                username:
+                    type: string
+                userNickname:
+                    type: string
+                userAvatarUrl:
+                    type: string
+                title:
+                    type: string
+                description:
+                    type: string
+                author:
+                    type: string
+                year:
+                    type: integer
+                    format: int32
+                width:
+                    type: number
+                    format: double
+                height:
+                    type: number
+                    format: double
+                material:
+                    type: string
+                price:
+                    type: number
+                    format: double
+                isCollected:
+                    type: boolean
+                location:
+                    type: string
+                style:
+                    type: string
+                technique:
+                    type: string
+                imageUrl:
+                    type: string
+                coverImageUrl:
+                    type: string
+                categoryId:
+                    type: string
+                categoryName:
+                    type: string
+                tags:
+                    type: array
+                    items:
+                        type: string
+                images:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/artwork.v1.ArtworkImage'
                 status:
                     type: integer
                     format: int32
+                visibility:
+                    type: integer
+                    format: int32
+                viewCount:
+                    type: string
+                likeCount:
+                    type: string
+                favoriteCount:
+                    type: string
+                commentCount:
+                    type: string
+                shareCount:
+                    type: string
+                publishAt:
+                    type: string
+                    format: date-time
                 createdAt:
                     type: string
                     format: date-time
                 updatedAt:
                     type: string
                     format: date-time
+        artwork.v1.CreateArtworkReply:
+            type: object
+            properties:
+                artwork:
+                    $ref: '#/components/schemas/artwork.v1.ArtworkInfo'
+        artwork.v1.CreateArtworkRequest:
+            type: object
+            properties:
+                title:
+                    type: string
+                description:
+                    type: string
+                author:
+                    type: string
+                year:
+                    type: integer
+                    format: int32
+                width:
+                    type: number
+                    format: double
+                height:
+                    type: number
+                    format: double
+                material:
+                    type: string
+                price:
+                    type: number
+                    format: double
+                isCollected:
+                    type: boolean
+                location:
+                    type: string
+                style:
+                    type: string
+                technique:
+                    type: string
+                imageUrl:
+                    type: string
+                categoryId:
+                    type: string
+                tags:
+                    type: array
+                    items:
+                        type: string
+                imageUrls:
+                    type: array
+                    items:
+                        type: string
+                coverImageUrl:
+                    type: string
+                status:
+                    type: integer
+                    format: int32
+                visibility:
+                    type: integer
+                    format: int32
+        artwork.v1.DeleteArtworkReply:
+            type: object
+            properties:
+                success:
+                    type: boolean
+        artwork.v1.GetArtworkReply:
+            type: object
+            properties:
+                artwork:
+                    $ref: '#/components/schemas/artwork.v1.ArtworkInfo'
+        artwork.v1.SearchArtworkReply:
+            type: object
+            properties:
+                artworks:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/artwork.v1.ArtworkInfo'
+                total:
+                    type: integer
+                    format: int32
+                page:
+                    type: integer
+                    format: int32
+                pageSize:
+                    type: integer
+                    format: int32
+        artwork.v1.UpdateArtworkReply:
+            type: object
+            properties:
+                artwork:
+                    $ref: '#/components/schemas/artwork.v1.ArtworkInfo'
+        artwork.v1.UpdateArtworkRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+                title:
+                    type: string
+                description:
+                    type: string
+                author:
+                    type: string
+                year:
+                    type: integer
+                    format: int32
+                width:
+                    type: number
+                    format: double
+                height:
+                    type: number
+                    format: double
+                material:
+                    type: string
+                price:
+                    type: number
+                    format: double
+                isCollected:
+                    type: boolean
+                location:
+                    type: string
+                style:
+                    type: string
+                technique:
+                    type: string
+                imageUrl:
+                    type: string
+                categoryId:
+                    type: string
+                tags:
+                    type: array
+                    items:
+                        type: string
+                imageUrls:
+                    type: array
+                    items:
+                        type: string
+                coverImageUrl:
+                    type: string
+                status:
+                    type: integer
+                    format: int32
+                visibility:
+                    type: integer
+                    format: int32
+        artwork.v1.UploadImageReply:
+            type: object
+            properties:
+                url:
+                    type: string
+                filename:
+                    type: string
+        artwork.v1.UploadImageRequest:
+            type: object
+            properties:
+                filename:
+                    type: string
+                content:
+                    type: string
+                    format: bytes
+                contentType:
+                    type: string
+        user.v1.CategoryInfo:
+            type: object
+            properties:
+                id:
+                    type: string
+                name:
+                    type: string
+                description:
+                    type: string
         user.v1.GetUserProfileReply:
             type: object
             properties:
                 user:
                     $ref: '#/components/schemas/user.v1.UserProfile'
+        user.v1.ListCategoriesReply:
+            type: object
+            properties:
+                categories:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/user.v1.CategoryInfo'
         user.v1.UpdateMyProfileReply:
             type: object
             properties:
@@ -261,5 +600,5 @@ components:
                     type: string
                     format: date-time
 tags:
-    - name: AuthService
+    - name: ArtworkService
     - name: UserService

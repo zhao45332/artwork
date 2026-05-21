@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.6.0
 // - protoc             v7.34.0--rc1
-// source: api/artwork/v1/artwork.proto
+// source: artwork/v1/artwork.proto
 
 package v1
 
@@ -24,26 +24,20 @@ const (
 	ArtworkService_DeleteArtwork_FullMethodName = "/artwork.v1.ArtworkService/DeleteArtwork"
 	ArtworkService_GetArtwork_FullMethodName    = "/artwork.v1.ArtworkService/GetArtwork"
 	ArtworkService_SearchArtwork_FullMethodName = "/artwork.v1.ArtworkService/SearchArtwork"
+	ArtworkService_GetMyArtworks_FullMethodName = "/artwork.v1.ArtworkService/GetMyArtworks"
 	ArtworkService_UploadImage_FullMethodName   = "/artwork.v1.ArtworkService/UploadImage"
 )
 
 // ArtworkServiceClient is the client API for ArtworkService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-//
-// 画作服务
 type ArtworkServiceClient interface {
-	// 创建画作
 	CreateArtwork(ctx context.Context, in *CreateArtworkRequest, opts ...grpc.CallOption) (*CreateArtworkReply, error)
-	// 更新画作
 	UpdateArtwork(ctx context.Context, in *UpdateArtworkRequest, opts ...grpc.CallOption) (*UpdateArtworkReply, error)
-	// 删除画作（软删除）
 	DeleteArtwork(ctx context.Context, in *DeleteArtworkRequest, opts ...grpc.CallOption) (*DeleteArtworkReply, error)
-	// 获取画作详情
 	GetArtwork(ctx context.Context, in *GetArtworkRequest, opts ...grpc.CallOption) (*GetArtworkReply, error)
-	// 搜索画作
 	SearchArtwork(ctx context.Context, in *SearchArtworkRequest, opts ...grpc.CallOption) (*SearchArtworkReply, error)
-	// 上传图片
+	GetMyArtworks(ctx context.Context, in *GetMyArtworksRequest, opts ...grpc.CallOption) (*SearchArtworkReply, error)
 	UploadImage(ctx context.Context, in *UploadImageRequest, opts ...grpc.CallOption) (*UploadImageReply, error)
 }
 
@@ -105,6 +99,16 @@ func (c *artworkServiceClient) SearchArtwork(ctx context.Context, in *SearchArtw
 	return out, nil
 }
 
+func (c *artworkServiceClient) GetMyArtworks(ctx context.Context, in *GetMyArtworksRequest, opts ...grpc.CallOption) (*SearchArtworkReply, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SearchArtworkReply)
+	err := c.cc.Invoke(ctx, ArtworkService_GetMyArtworks_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *artworkServiceClient) UploadImage(ctx context.Context, in *UploadImageRequest, opts ...grpc.CallOption) (*UploadImageReply, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(UploadImageReply)
@@ -118,20 +122,13 @@ func (c *artworkServiceClient) UploadImage(ctx context.Context, in *UploadImageR
 // ArtworkServiceServer is the server API for ArtworkService service.
 // All implementations must embed UnimplementedArtworkServiceServer
 // for forward compatibility.
-//
-// 画作服务
 type ArtworkServiceServer interface {
-	// 创建画作
 	CreateArtwork(context.Context, *CreateArtworkRequest) (*CreateArtworkReply, error)
-	// 更新画作
 	UpdateArtwork(context.Context, *UpdateArtworkRequest) (*UpdateArtworkReply, error)
-	// 删除画作（软删除）
 	DeleteArtwork(context.Context, *DeleteArtworkRequest) (*DeleteArtworkReply, error)
-	// 获取画作详情
 	GetArtwork(context.Context, *GetArtworkRequest) (*GetArtworkReply, error)
-	// 搜索画作
 	SearchArtwork(context.Context, *SearchArtworkRequest) (*SearchArtworkReply, error)
-	// 上传图片
+	GetMyArtworks(context.Context, *GetMyArtworksRequest) (*SearchArtworkReply, error)
 	UploadImage(context.Context, *UploadImageRequest) (*UploadImageReply, error)
 	mustEmbedUnimplementedArtworkServiceServer()
 }
@@ -157,6 +154,9 @@ func (UnimplementedArtworkServiceServer) GetArtwork(context.Context, *GetArtwork
 }
 func (UnimplementedArtworkServiceServer) SearchArtwork(context.Context, *SearchArtworkRequest) (*SearchArtworkReply, error) {
 	return nil, status.Error(codes.Unimplemented, "method SearchArtwork not implemented")
+}
+func (UnimplementedArtworkServiceServer) GetMyArtworks(context.Context, *GetMyArtworksRequest) (*SearchArtworkReply, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetMyArtworks not implemented")
 }
 func (UnimplementedArtworkServiceServer) UploadImage(context.Context, *UploadImageRequest) (*UploadImageReply, error) {
 	return nil, status.Error(codes.Unimplemented, "method UploadImage not implemented")
@@ -272,6 +272,24 @@ func _ArtworkService_SearchArtwork_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ArtworkService_GetMyArtworks_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetMyArtworksRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArtworkServiceServer).GetMyArtworks(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ArtworkService_GetMyArtworks_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArtworkServiceServer).GetMyArtworks(ctx, req.(*GetMyArtworksRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _ArtworkService_UploadImage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UploadImageRequest)
 	if err := dec(in); err != nil {
@@ -318,10 +336,14 @@ var ArtworkService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _ArtworkService_SearchArtwork_Handler,
 		},
 		{
+			MethodName: "GetMyArtworks",
+			Handler:    _ArtworkService_GetMyArtworks_Handler,
+		},
+		{
 			MethodName: "UploadImage",
 			Handler:    _ArtworkService_UploadImage_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "api/artwork/v1/artwork.proto",
+	Metadata: "artwork/v1/artwork.proto",
 }

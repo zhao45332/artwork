@@ -48,7 +48,7 @@ func wireApp(confServer *conf.Server, confData *conf.Data, logger log.Logger) (*
 	}
 	authUsecase := biz.NewAuthUsecase(userDataRepo, authRedisRepo, tokenManager, logger)
 	authService := service.NewAuthService(authUsecase, logger)
-	userUsecase := biz.NewUserUsecase(userDataRepo, logger)
+	userUsecase := biz.NewUserUsecase(userDataRepo, categoryRepo, logger)
 	userService := service.NewUserService(userUsecase, logger)
 
 	authMiddleware := server.NewAuthMiddleware(tokenManager)
