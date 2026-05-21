@@ -47,7 +47,7 @@ func (r *imageRepo) UploadImage(ctx context.Context, filename string, content []
 
 	// 返回对象名称（实际使用时需要配置 MinIO 的访问地址）
 	// 如果需要公开访问，可以使用 PresignedGetObject 生成预签名URL
-	url := fmt.Sprintf("/images/%s", objectName)
+	url := fmt.Sprintf("/v1/assets/%s", objectName)
 	r.log.Infof("图片上传成功: %s", objectName)
 	return url, nil
 }

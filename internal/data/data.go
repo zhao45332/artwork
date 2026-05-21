@@ -189,6 +189,7 @@ func autoMigrate(db *gorm.DB, logger log.Logger) error {
 		&Category{},
 		&Tag{},
 		&Artwork{},
+		&ArtworkImage{},
 		&User{},
 		&UserStats{},
 		&UserIdentity{},

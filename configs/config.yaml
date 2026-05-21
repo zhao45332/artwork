@@ -24,5 +24,5 @@ data:
     bucket_name: artwork
   auth:
     jwt_secret: artwork-dev-secret
-    access_token_expire: 2h
-    refresh_token_expire: 168h
+    access_token_expire: 7200s
+    refresh_token_expire: 604800s

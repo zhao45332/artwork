@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.11
 // 	protoc        v7.34.0--rc1
-// source: api/artwork/v1/artwork.proto
+// source: artwork/v1/artwork.proto
 
 package v1
 
@@ -23,35 +23,116 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// 画作信息
+type ArtworkImage struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Url           string                 `protobuf:"bytes,2,opt,name=url,proto3" json:"url,omitempty"`
+	IsCover       bool                   `protobuf:"varint,3,opt,name=is_cover,json=isCover,proto3" json:"is_cover,omitempty"`
+	SortOrder     int32                  `protobuf:"varint,4,opt,name=sort_order,json=sortOrder,proto3" json:"sort_order,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ArtworkImage) Reset() {
+	*x = ArtworkImage{}
+	mi := &file_artwork_v1_artwork_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ArtworkImage) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ArtworkImage) ProtoMessage() {}
+
+func (x *ArtworkImage) ProtoReflect() protoreflect.Message {
+	mi := &file_artwork_v1_artwork_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ArtworkImage.ProtoReflect.Descriptor instead.
+func (*ArtworkImage) Descriptor() ([]byte, []int) {
+	return file_artwork_v1_artwork_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *ArtworkImage) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *ArtworkImage) GetUrl() string {
+	if x != nil {
+		return x.Url
+	}
+	return ""
+}
+
+func (x *ArtworkImage) GetIsCover() bool {
+	if x != nil {
+		return x.IsCover
+	}
+	return false
+}
+
+func (x *ArtworkImage) GetSortOrder() int32 {
+	if x != nil {
+		return x.SortOrder
+	}
+	return 0
+}
+
 type ArtworkInfo struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	Title         string                 `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty"`
-	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
-	Author        string                 `protobuf:"bytes,4,opt,name=author,proto3" json:"author,omitempty"`
-	Year          int32                  `protobuf:"varint,5,opt,name=year,proto3" json:"year,omitempty"`
-	Width         float64                `protobuf:"fixed64,6,opt,name=width,proto3" json:"width,omitempty"`
-	Height        float64                `protobuf:"fixed64,7,opt,name=height,proto3" json:"height,omitempty"`
-	Material      string                 `protobuf:"bytes,8,opt,name=material,proto3" json:"material,omitempty"`
-	Price         float64                `protobuf:"fixed64,9,opt,name=price,proto3" json:"price,omitempty"`
-	IsCollected   bool                   `protobuf:"varint,10,opt,name=is_collected,json=isCollected,proto3" json:"is_collected,omitempty"`
-	Location      string                 `protobuf:"bytes,11,opt,name=location,proto3" json:"location,omitempty"`
-	Style         string                 `protobuf:"bytes,12,opt,name=style,proto3" json:"style,omitempty"`
-	Technique     string                 `protobuf:"bytes,13,opt,name=technique,proto3" json:"technique,omitempty"`
-	ImageUrl      string                 `protobuf:"bytes,14,opt,name=image_url,json=imageUrl,proto3" json:"image_url,omitempty"`
-	CategoryId    int64                  `protobuf:"varint,15,opt,name=category_id,json=categoryId,proto3" json:"category_id,omitempty"`
-	CategoryName  string                 `protobuf:"bytes,16,opt,name=category_name,json=categoryName,proto3" json:"category_name,omitempty"`
-	Tags          []string               `protobuf:"bytes,17,rep,name=tags,proto3" json:"tags,omitempty"`
-	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,18,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
-	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,19,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	UserId        int64                  `protobuf:"varint,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	Username      string                 `protobuf:"bytes,3,opt,name=username,proto3" json:"username,omitempty"`
+	UserNickname  string                 `protobuf:"bytes,4,opt,name=user_nickname,json=userNickname,proto3" json:"user_nickname,omitempty"`
+	UserAvatarUrl string                 `protobuf:"bytes,5,opt,name=user_avatar_url,json=userAvatarUrl,proto3" json:"user_avatar_url,omitempty"`
+	Title         string                 `protobuf:"bytes,6,opt,name=title,proto3" json:"title,omitempty"`
+	Description   string                 `protobuf:"bytes,7,opt,name=description,proto3" json:"description,omitempty"`
+	Author        string                 `protobuf:"bytes,8,opt,name=author,proto3" json:"author,omitempty"`
+	Year          int32                  `protobuf:"varint,9,opt,name=year,proto3" json:"year,omitempty"`
+	Width         float64                `protobuf:"fixed64,10,opt,name=width,proto3" json:"width,omitempty"`
+	Height        float64                `protobuf:"fixed64,11,opt,name=height,proto3" json:"height,omitempty"`
+	Material      string                 `protobuf:"bytes,12,opt,name=material,proto3" json:"material,omitempty"`
+	Price         float64                `protobuf:"fixed64,13,opt,name=price,proto3" json:"price,omitempty"`
+	IsCollected   bool                   `protobuf:"varint,14,opt,name=is_collected,json=isCollected,proto3" json:"is_collected,omitempty"`
+	Location      string                 `protobuf:"bytes,15,opt,name=location,proto3" json:"location,omitempty"`
+	Style         string                 `protobuf:"bytes,16,opt,name=style,proto3" json:"style,omitempty"`
+	Technique     string                 `protobuf:"bytes,17,opt,name=technique,proto3" json:"technique,omitempty"`
+	ImageUrl      string                 `protobuf:"bytes,18,opt,name=image_url,json=imageUrl,proto3" json:"image_url,omitempty"`
+	CoverImageUrl string                 `protobuf:"bytes,19,opt,name=cover_image_url,json=coverImageUrl,proto3" json:"cover_image_url,omitempty"`
+	CategoryId    int64                  `protobuf:"varint,20,opt,name=category_id,json=categoryId,proto3" json:"category_id,omitempty"`
+	CategoryName  string                 `protobuf:"bytes,21,opt,name=category_name,json=categoryName,proto3" json:"category_name,omitempty"`
+	Tags          []string               `protobuf:"bytes,22,rep,name=tags,proto3" json:"tags,omitempty"`
+	Images        []*ArtworkImage        `protobuf:"bytes,23,rep,name=images,proto3" json:"images,omitempty"`
+	Status        int32                  `protobuf:"varint,24,opt,name=status,proto3" json:"status,omitempty"`
+	Visibility    int32                  `protobuf:"varint,25,opt,name=visibility,proto3" json:"visibility,omitempty"`
+	ViewCount     int64                  `protobuf:"varint,26,opt,name=view_count,json=viewCount,proto3" json:"view_count,omitempty"`
+	LikeCount     int64                  `protobuf:"varint,27,opt,name=like_count,json=likeCount,proto3" json:"like_count,omitempty"`
+	FavoriteCount int64                  `protobuf:"varint,28,opt,name=favorite_count,json=favoriteCount,proto3" json:"favorite_count,omitempty"`
+	CommentCount  int64                  `protobuf:"varint,29,opt,name=comment_count,json=commentCount,proto3" json:"comment_count,omitempty"`
+	ShareCount    int64                  `protobuf:"varint,30,opt,name=share_count,json=shareCount,proto3" json:"share_count,omitempty"`
+	PublishAt     *timestamppb.Timestamp `protobuf:"bytes,31,opt,name=publish_at,json=publishAt,proto3" json:"publish_at,omitempty"`
+	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,32,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,33,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *ArtworkInfo) Reset() {
 	*x = ArtworkInfo{}
-	mi := &file_api_artwork_v1_artwork_proto_msgTypes[0]
+	mi := &file_artwork_v1_artwork_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -63,7 +144,7 @@ func (x *ArtworkInfo) String() string {
 func (*ArtworkInfo) ProtoMessage() {}
 
 func (x *ArtworkInfo) ProtoReflect() protoreflect.Message {
-	mi := &file_api_artwork_v1_artwork_proto_msgTypes[0]
+	mi := &file_artwork_v1_artwork_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -76,7 +157,7 @@ func (x *ArtworkInfo) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ArtworkInfo.ProtoReflect.Descriptor instead.
 func (*ArtworkInfo) Descriptor() ([]byte, []int) {
-	return file_api_artwork_v1_artwork_proto_rawDescGZIP(), []int{0}
+	return file_artwork_v1_artwork_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *ArtworkInfo) GetId() int64 {
@@ -84,6 +165,34 @@ func (x *ArtworkInfo) GetId() int64 {
 		return x.Id
 	}
 	return 0
+}
+
+func (x *ArtworkInfo) GetUserId() int64 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+func (x *ArtworkInfo) GetUsername() string {
+	if x != nil {
+		return x.Username
+	}
+	return ""
+}
+
+func (x *ArtworkInfo) GetUserNickname() string {
+	if x != nil {
+		return x.UserNickname
+	}
+	return ""
+}
+
+func (x *ArtworkInfo) GetUserAvatarUrl() string {
+	if x != nil {
+		return x.UserAvatarUrl
+	}
+	return ""
 }
 
 func (x *ArtworkInfo) GetTitle() string {
@@ -177,6 +286,13 @@ func (x *ArtworkInfo) GetImageUrl() string {
 	return ""
 }
 
+func (x *ArtworkInfo) GetCoverImageUrl() string {
+	if x != nil {
+		return x.CoverImageUrl
+	}
+	return ""
+}
+
 func (x *ArtworkInfo) GetCategoryId() int64 {
 	if x != nil {
 		return x.CategoryId
@@ -198,6 +314,69 @@ func (x *ArtworkInfo) GetTags() []string {
 	return nil
 }
 
+func (x *ArtworkInfo) GetImages() []*ArtworkImage {
+	if x != nil {
+		return x.Images
+	}
+	return nil
+}
+
+func (x *ArtworkInfo) GetStatus() int32 {
+	if x != nil {
+		return x.Status
+	}
+	return 0
+}
+
+func (x *ArtworkInfo) GetVisibility() int32 {
+	if x != nil {
+		return x.Visibility
+	}
+	return 0
+}
+
+func (x *ArtworkInfo) GetViewCount() int64 {
+	if x != nil {
+		return x.ViewCount
+	}
+	return 0
+}
+
+func (x *ArtworkInfo) GetLikeCount() int64 {
+	if x != nil {
+		return x.LikeCount
+	}
+	return 0
+}
+
+func (x *ArtworkInfo) GetFavoriteCount() int64 {
+	if x != nil {
+		return x.FavoriteCount
+	}
+	return 0
+}
+
+func (x *ArtworkInfo) GetCommentCount() int64 {
+	if x != nil {
+		return x.CommentCount
+	}
+	return 0
+}
+
+func (x *ArtworkInfo) GetShareCount() int64 {
+	if x != nil {
+		return x.ShareCount
+	}
+	return 0
+}
+
+func (x *ArtworkInfo) GetPublishAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.PublishAt
+	}
+	return nil
+}
+
 func (x *ArtworkInfo) GetCreatedAt() *timestamppb.Timestamp {
 	if x != nil {
 		return x.CreatedAt
@@ -212,7 +391,6 @@ func (x *ArtworkInfo) GetUpdatedAt() *timestamppb.Timestamp {
 	return nil
 }
 
-// 创建画作请求
 type CreateArtworkRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Title         string                 `protobuf:"bytes,1,opt,name=title,proto3" json:"title,omitempty"`
@@ -230,13 +408,17 @@ type CreateArtworkRequest struct {
 	ImageUrl      string                 `protobuf:"bytes,13,opt,name=image_url,json=imageUrl,proto3" json:"image_url,omitempty"`
 	CategoryId    int64                  `protobuf:"varint,14,opt,name=category_id,json=categoryId,proto3" json:"category_id,omitempty"`
 	Tags          []string               `protobuf:"bytes,15,rep,name=tags,proto3" json:"tags,omitempty"`
+	ImageUrls     []string               `protobuf:"bytes,16,rep,name=image_urls,json=imageUrls,proto3" json:"image_urls,omitempty"`
+	CoverImageUrl string                 `protobuf:"bytes,17,opt,name=cover_image_url,json=coverImageUrl,proto3" json:"cover_image_url,omitempty"`
+	Status        int32                  `protobuf:"varint,18,opt,name=status,proto3" json:"status,omitempty"`
+	Visibility    int32                  `protobuf:"varint,19,opt,name=visibility,proto3" json:"visibility,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *CreateArtworkRequest) Reset() {
 	*x = CreateArtworkRequest{}
-	mi := &file_api_artwork_v1_artwork_proto_msgTypes[1]
+	mi := &file_artwork_v1_artwork_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -248,7 +430,7 @@ func (x *CreateArtworkRequest) String() string {
 func (*CreateArtworkRequest) ProtoMessage() {}
 
 func (x *CreateArtworkRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_artwork_v1_artwork_proto_msgTypes[1]
+	mi := &file_artwork_v1_artwork_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -261,7 +443,7 @@ func (x *CreateArtworkRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateArtworkRequest.ProtoReflect.Descriptor instead.
 func (*CreateArtworkRequest) Descriptor() ([]byte, []int) {
-	return file_api_artwork_v1_artwork_proto_rawDescGZIP(), []int{1}
+	return file_artwork_v1_artwork_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *CreateArtworkRequest) GetTitle() string {
@@ -369,7 +551,34 @@ func (x *CreateArtworkRequest) GetTags() []string {
 	return nil
 }
 
-// 创建画作响应
+func (x *CreateArtworkRequest) GetImageUrls() []string {
+	if x != nil {
+		return x.ImageUrls
+	}
+	return nil
+}
+
+func (x *CreateArtworkRequest) GetCoverImageUrl() string {
+	if x != nil {
+		return x.CoverImageUrl
+	}
+	return ""
+}
+
+func (x *CreateArtworkRequest) GetStatus() int32 {
+	if x != nil {
+		return x.Status
+	}
+	return 0
+}
+
+func (x *CreateArtworkRequest) GetVisibility() int32 {
+	if x != nil {
+		return x.Visibility
+	}
+	return 0
+}
+
 type CreateArtworkReply struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Artwork       *ArtworkInfo           `protobuf:"bytes,1,opt,name=artwork,proto3" json:"artwork,omitempty"`
@@ -379,7 +588,7 @@ type CreateArtworkReply struct {
 
 func (x *CreateArtworkReply) Reset() {
 	*x = CreateArtworkReply{}
-	mi := &file_api_artwork_v1_artwork_proto_msgTypes[2]
+	mi := &file_artwork_v1_artwork_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -391,7 +600,7 @@ func (x *CreateArtworkReply) String() string {
 func (*CreateArtworkReply) ProtoMessage() {}
 
 func (x *CreateArtworkReply) ProtoReflect() protoreflect.Message {
-	mi := &file_api_artwork_v1_artwork_proto_msgTypes[2]
+	mi := &file_artwork_v1_artwork_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -404,7 +613,7 @@ func (x *CreateArtworkReply) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateArtworkReply.ProtoReflect.Descriptor instead.
 func (*CreateArtworkReply) Descriptor() ([]byte, []int) {
-	return file_api_artwork_v1_artwork_proto_rawDescGZIP(), []int{2}
+	return file_artwork_v1_artwork_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *CreateArtworkReply) GetArtwork() *ArtworkInfo {
@@ -414,7 +623,6 @@ func (x *CreateArtworkReply) GetArtwork() *ArtworkInfo {
 	return nil
 }
 
-// 更新画作请求
 type UpdateArtworkRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -433,13 +641,17 @@ type UpdateArtworkRequest struct {
 	ImageUrl      string                 `protobuf:"bytes,14,opt,name=image_url,json=imageUrl,proto3" json:"image_url,omitempty"`
 	CategoryId    int64                  `protobuf:"varint,15,opt,name=category_id,json=categoryId,proto3" json:"category_id,omitempty"`
 	Tags          []string               `protobuf:"bytes,16,rep,name=tags,proto3" json:"tags,omitempty"`
+	ImageUrls     []string               `protobuf:"bytes,17,rep,name=image_urls,json=imageUrls,proto3" json:"image_urls,omitempty"`
+	CoverImageUrl string                 `protobuf:"bytes,18,opt,name=cover_image_url,json=coverImageUrl,proto3" json:"cover_image_url,omitempty"`
+	Status        int32                  `protobuf:"varint,19,opt,name=status,proto3" json:"status,omitempty"`
+	Visibility    int32                  `protobuf:"varint,20,opt,name=visibility,proto3" json:"visibility,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *UpdateArtworkRequest) Reset() {
 	*x = UpdateArtworkRequest{}
-	mi := &file_api_artwork_v1_artwork_proto_msgTypes[3]
+	mi := &file_artwork_v1_artwork_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -451,7 +663,7 @@ func (x *UpdateArtworkRequest) String() string {
 func (*UpdateArtworkRequest) ProtoMessage() {}
 
 func (x *UpdateArtworkRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_artwork_v1_artwork_proto_msgTypes[3]
+	mi := &file_artwork_v1_artwork_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -464,7 +676,7 @@ func (x *UpdateArtworkRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateArtworkRequest.ProtoReflect.Descriptor instead.
 func (*UpdateArtworkRequest) Descriptor() ([]byte, []int) {
-	return file_api_artwork_v1_artwork_proto_rawDescGZIP(), []int{3}
+	return file_artwork_v1_artwork_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *UpdateArtworkRequest) GetId() int64 {
@@ -579,7 +791,34 @@ func (x *UpdateArtworkRequest) GetTags() []string {
 	return nil
 }
 
-// 更新画作响应
+func (x *UpdateArtworkRequest) GetImageUrls() []string {
+	if x != nil {
+		return x.ImageUrls
+	}
+	return nil
+}
+
+func (x *UpdateArtworkRequest) GetCoverImageUrl() string {
+	if x != nil {
+		return x.CoverImageUrl
+	}
+	return ""
+}
+
+func (x *UpdateArtworkRequest) GetStatus() int32 {
+	if x != nil {
+		return x.Status
+	}
+	return 0
+}
+
+func (x *UpdateArtworkRequest) GetVisibility() int32 {
+	if x != nil {
+		return x.Visibility
+	}
+	return 0
+}
+
 type UpdateArtworkReply struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Artwork       *ArtworkInfo           `protobuf:"bytes,1,opt,name=artwork,proto3" json:"artwork,omitempty"`
@@ -589,7 +828,7 @@ type UpdateArtworkReply struct {
 
 func (x *UpdateArtworkReply) Reset() {
 	*x = UpdateArtworkReply{}
-	mi := &file_api_artwork_v1_artwork_proto_msgTypes[4]
+	mi := &file_artwork_v1_artwork_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -601,7 +840,7 @@ func (x *UpdateArtworkReply) String() string {
 func (*UpdateArtworkReply) ProtoMessage() {}
 
 func (x *UpdateArtworkReply) ProtoReflect() protoreflect.Message {
-	mi := &file_api_artwork_v1_artwork_proto_msgTypes[4]
+	mi := &file_artwork_v1_artwork_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -614,7 +853,7 @@ func (x *UpdateArtworkReply) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateArtworkReply.ProtoReflect.Descriptor instead.
 func (*UpdateArtworkReply) Descriptor() ([]byte, []int) {
-	return file_api_artwork_v1_artwork_proto_rawDescGZIP(), []int{4}
+	return file_artwork_v1_artwork_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *UpdateArtworkReply) GetArtwork() *ArtworkInfo {
@@ -624,7 +863,6 @@ func (x *UpdateArtworkReply) GetArtwork() *ArtworkInfo {
 	return nil
 }
 
-// 删除画作请求
 type DeleteArtworkRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -634,7 +872,7 @@ type DeleteArtworkRequest struct {
 
 func (x *DeleteArtworkRequest) Reset() {
 	*x = DeleteArtworkRequest{}
-	mi := &file_api_artwork_v1_artwork_proto_msgTypes[5]
+	mi := &file_artwork_v1_artwork_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -646,7 +884,7 @@ func (x *DeleteArtworkRequest) String() string {
 func (*DeleteArtworkRequest) ProtoMessage() {}
 
 func (x *DeleteArtworkRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_artwork_v1_artwork_proto_msgTypes[5]
+	mi := &file_artwork_v1_artwork_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -659,7 +897,7 @@ func (x *DeleteArtworkRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteArtworkRequest.ProtoReflect.Descriptor instead.
 func (*DeleteArtworkRequest) Descriptor() ([]byte, []int) {
-	return file_api_artwork_v1_artwork_proto_rawDescGZIP(), []int{5}
+	return file_artwork_v1_artwork_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *DeleteArtworkRequest) GetId() int64 {
@@ -669,7 +907,6 @@ func (x *DeleteArtworkRequest) GetId() int64 {
 	return 0
 }
 
-// 删除画作响应
 type DeleteArtworkReply struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
@@ -679,7 +916,7 @@ type DeleteArtworkReply struct {
 
 func (x *DeleteArtworkReply) Reset() {
 	*x = DeleteArtworkReply{}
-	mi := &file_api_artwork_v1_artwork_proto_msgTypes[6]
+	mi := &file_artwork_v1_artwork_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -691,7 +928,7 @@ func (x *DeleteArtworkReply) String() string {
 func (*DeleteArtworkReply) ProtoMessage() {}
 
 func (x *DeleteArtworkReply) ProtoReflect() protoreflect.Message {
-	mi := &file_api_artwork_v1_artwork_proto_msgTypes[6]
+	mi := &file_artwork_v1_artwork_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -704,7 +941,7 @@ func (x *DeleteArtworkReply) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteArtworkReply.ProtoReflect.Descriptor instead.
 func (*DeleteArtworkReply) Descriptor() ([]byte, []int) {
-	return file_api_artwork_v1_artwork_proto_rawDescGZIP(), []int{6}
+	return file_artwork_v1_artwork_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *DeleteArtworkReply) GetSuccess() bool {
@@ -714,7 +951,6 @@ func (x *DeleteArtworkReply) GetSuccess() bool {
 	return false
 }
 
-// 获取画作请求
 type GetArtworkRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -724,7 +960,7 @@ type GetArtworkRequest struct {
 
 func (x *GetArtworkRequest) Reset() {
 	*x = GetArtworkRequest{}
-	mi := &file_api_artwork_v1_artwork_proto_msgTypes[7]
+	mi := &file_artwork_v1_artwork_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -736,7 +972,7 @@ func (x *GetArtworkRequest) String() string {
 func (*GetArtworkRequest) ProtoMessage() {}
 
 func (x *GetArtworkRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_artwork_v1_artwork_proto_msgTypes[7]
+	mi := &file_artwork_v1_artwork_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -749,7 +985,7 @@ func (x *GetArtworkRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetArtworkRequest.ProtoReflect.Descriptor instead.
 func (*GetArtworkRequest) Descriptor() ([]byte, []int) {
-	return file_api_artwork_v1_artwork_proto_rawDescGZIP(), []int{7}
+	return file_artwork_v1_artwork_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *GetArtworkRequest) GetId() int64 {
@@ -759,7 +995,6 @@ func (x *GetArtworkRequest) GetId() int64 {
 	return 0
 }
 
-// 获取画作响应
 type GetArtworkReply struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Artwork       *ArtworkInfo           `protobuf:"bytes,1,opt,name=artwork,proto3" json:"artwork,omitempty"`
@@ -769,7 +1004,7 @@ type GetArtworkReply struct {
 
 func (x *GetArtworkReply) Reset() {
 	*x = GetArtworkReply{}
-	mi := &file_api_artwork_v1_artwork_proto_msgTypes[8]
+	mi := &file_artwork_v1_artwork_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -781,7 +1016,7 @@ func (x *GetArtworkReply) String() string {
 func (*GetArtworkReply) ProtoMessage() {}
 
 func (x *GetArtworkReply) ProtoReflect() protoreflect.Message {
-	mi := &file_api_artwork_v1_artwork_proto_msgTypes[8]
+	mi := &file_artwork_v1_artwork_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -794,7 +1029,7 @@ func (x *GetArtworkReply) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetArtworkReply.ProtoReflect.Descriptor instead.
 func (*GetArtworkReply) Descriptor() ([]byte, []int) {
-	return file_api_artwork_v1_artwork_proto_rawDescGZIP(), []int{8}
+	return file_artwork_v1_artwork_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *GetArtworkReply) GetArtwork() *ArtworkInfo {
@@ -804,31 +1039,33 @@ func (x *GetArtworkReply) GetArtwork() *ArtworkInfo {
 	return nil
 }
 
-// 搜索画作请求
 type SearchArtworkRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Keyword       string                 `protobuf:"bytes,1,opt,name=keyword,proto3" json:"keyword,omitempty"`                           // 关键词（标题、描述、作者）
-	YearFrom      int32                  `protobuf:"varint,2,opt,name=year_from,json=yearFrom,proto3" json:"year_from,omitempty"`        // 起始年份
-	YearTo        int32                  `protobuf:"varint,3,opt,name=year_to,json=yearTo,proto3" json:"year_to,omitempty"`              // 结束年份
-	WidthMin      float64                `protobuf:"fixed64,4,opt,name=width_min,json=widthMin,proto3" json:"width_min,omitempty"`       // 最小宽度
-	WidthMax      float64                `protobuf:"fixed64,5,opt,name=width_max,json=widthMax,proto3" json:"width_max,omitempty"`       // 最大宽度
-	HeightMin     float64                `protobuf:"fixed64,6,opt,name=height_min,json=heightMin,proto3" json:"height_min,omitempty"`    // 最小高度
-	HeightMax     float64                `protobuf:"fixed64,7,opt,name=height_max,json=heightMax,proto3" json:"height_max,omitempty"`    // 最大高度
-	PriceMin      float64                `protobuf:"fixed64,8,opt,name=price_min,json=priceMin,proto3" json:"price_min,omitempty"`       // 最低价格
-	PriceMax      float64                `protobuf:"fixed64,9,opt,name=price_max,json=priceMax,proto3" json:"price_max,omitempty"`       // 最高价格
-	CategoryId    int64                  `protobuf:"varint,10,opt,name=category_id,json=categoryId,proto3" json:"category_id,omitempty"` // 分类ID
-	Tags          []string               `protobuf:"bytes,11,rep,name=tags,proto3" json:"tags,omitempty"`                                // 标签列表
-	Page          int32                  `protobuf:"varint,12,opt,name=page,proto3" json:"page,omitempty"`                               // 页码（从1开始）
-	PageSize      int32                  `protobuf:"varint,13,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`       // 每页数量
-	SortBy        string                 `protobuf:"bytes,14,opt,name=sort_by,json=sortBy,proto3" json:"sort_by,omitempty"`              // 排序字段（created_at, updated_at, title, price）
-	SortOrder     string                 `protobuf:"bytes,15,opt,name=sort_order,json=sortOrder,proto3" json:"sort_order,omitempty"`     // 排序方向（asc, desc）
+	Keyword       string                 `protobuf:"bytes,1,opt,name=keyword,proto3" json:"keyword,omitempty"`
+	YearFrom      int32                  `protobuf:"varint,2,opt,name=year_from,json=yearFrom,proto3" json:"year_from,omitempty"`
+	YearTo        int32                  `protobuf:"varint,3,opt,name=year_to,json=yearTo,proto3" json:"year_to,omitempty"`
+	WidthMin      float64                `protobuf:"fixed64,4,opt,name=width_min,json=widthMin,proto3" json:"width_min,omitempty"`
+	WidthMax      float64                `protobuf:"fixed64,5,opt,name=width_max,json=widthMax,proto3" json:"width_max,omitempty"`
+	HeightMin     float64                `protobuf:"fixed64,6,opt,name=height_min,json=heightMin,proto3" json:"height_min,omitempty"`
+	HeightMax     float64                `protobuf:"fixed64,7,opt,name=height_max,json=heightMax,proto3" json:"height_max,omitempty"`
+	PriceMin      float64                `protobuf:"fixed64,8,opt,name=price_min,json=priceMin,proto3" json:"price_min,omitempty"`
+	PriceMax      float64                `protobuf:"fixed64,9,opt,name=price_max,json=priceMax,proto3" json:"price_max,omitempty"`
+	CategoryId    int64                  `protobuf:"varint,10,opt,name=category_id,json=categoryId,proto3" json:"category_id,omitempty"`
+	Tags          []string               `protobuf:"bytes,11,rep,name=tags,proto3" json:"tags,omitempty"`
+	Page          int32                  `protobuf:"varint,12,opt,name=page,proto3" json:"page,omitempty"`
+	PageSize      int32                  `protobuf:"varint,13,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
+	SortBy        string                 `protobuf:"bytes,14,opt,name=sort_by,json=sortBy,proto3" json:"sort_by,omitempty"`
+	SortOrder     string                 `protobuf:"bytes,15,opt,name=sort_order,json=sortOrder,proto3" json:"sort_order,omitempty"`
+	UserId        int64                  `protobuf:"varint,16,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	Visibility    int32                  `protobuf:"varint,17,opt,name=visibility,proto3" json:"visibility,omitempty"`
+	Status        int32                  `protobuf:"varint,18,opt,name=status,proto3" json:"status,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *SearchArtworkRequest) Reset() {
 	*x = SearchArtworkRequest{}
-	mi := &file_api_artwork_v1_artwork_proto_msgTypes[9]
+	mi := &file_artwork_v1_artwork_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -840,7 +1077,7 @@ func (x *SearchArtworkRequest) String() string {
 func (*SearchArtworkRequest) ProtoMessage() {}
 
 func (x *SearchArtworkRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_artwork_v1_artwork_proto_msgTypes[9]
+	mi := &file_artwork_v1_artwork_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -853,7 +1090,7 @@ func (x *SearchArtworkRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SearchArtworkRequest.ProtoReflect.Descriptor instead.
 func (*SearchArtworkRequest) Descriptor() ([]byte, []int) {
-	return file_api_artwork_v1_artwork_proto_rawDescGZIP(), []int{9}
+	return file_artwork_v1_artwork_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *SearchArtworkRequest) GetKeyword() string {
@@ -961,20 +1198,40 @@ func (x *SearchArtworkRequest) GetSortOrder() string {
 	return ""
 }
 
-// 搜索画作响应
+func (x *SearchArtworkRequest) GetUserId() int64 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+func (x *SearchArtworkRequest) GetVisibility() int32 {
+	if x != nil {
+		return x.Visibility
+	}
+	return 0
+}
+
+func (x *SearchArtworkRequest) GetStatus() int32 {
+	if x != nil {
+		return x.Status
+	}
+	return 0
+}
+
 type SearchArtworkReply struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Artworks      []*ArtworkInfo         `protobuf:"bytes,1,rep,name=artworks,proto3" json:"artworks,omitempty"`
-	Total         int32                  `protobuf:"varint,2,opt,name=total,proto3" json:"total,omitempty"`                       // 总数
-	Page          int32                  `protobuf:"varint,3,opt,name=page,proto3" json:"page,omitempty"`                         // 当前页码
-	PageSize      int32                  `protobuf:"varint,4,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"` // 每页数量
+	Total         int32                  `protobuf:"varint,2,opt,name=total,proto3" json:"total,omitempty"`
+	Page          int32                  `protobuf:"varint,3,opt,name=page,proto3" json:"page,omitempty"`
+	PageSize      int32                  `protobuf:"varint,4,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *SearchArtworkReply) Reset() {
 	*x = SearchArtworkReply{}
-	mi := &file_api_artwork_v1_artwork_proto_msgTypes[10]
+	mi := &file_artwork_v1_artwork_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -986,7 +1243,7 @@ func (x *SearchArtworkReply) String() string {
 func (*SearchArtworkReply) ProtoMessage() {}
 
 func (x *SearchArtworkReply) ProtoReflect() protoreflect.Message {
-	mi := &file_api_artwork_v1_artwork_proto_msgTypes[10]
+	mi := &file_artwork_v1_artwork_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -999,7 +1256,7 @@ func (x *SearchArtworkReply) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SearchArtworkReply.ProtoReflect.Descriptor instead.
 func (*SearchArtworkReply) Descriptor() ([]byte, []int) {
-	return file_api_artwork_v1_artwork_proto_rawDescGZIP(), []int{10}
+	return file_artwork_v1_artwork_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *SearchArtworkReply) GetArtworks() []*ArtworkInfo {
@@ -1030,19 +1287,78 @@ func (x *SearchArtworkReply) GetPageSize() int32 {
 	return 0
 }
 
-// 上传图片请求
+type GetMyArtworksRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Page          int32                  `protobuf:"varint,1,opt,name=page,proto3" json:"page,omitempty"`
+	PageSize      int32                  `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
+	Status        int32                  `protobuf:"varint,3,opt,name=status,proto3" json:"status,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetMyArtworksRequest) Reset() {
+	*x = GetMyArtworksRequest{}
+	mi := &file_artwork_v1_artwork_proto_msgTypes[12]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetMyArtworksRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetMyArtworksRequest) ProtoMessage() {}
+
+func (x *GetMyArtworksRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_artwork_v1_artwork_proto_msgTypes[12]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetMyArtworksRequest.ProtoReflect.Descriptor instead.
+func (*GetMyArtworksRequest) Descriptor() ([]byte, []int) {
+	return file_artwork_v1_artwork_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *GetMyArtworksRequest) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+func (x *GetMyArtworksRequest) GetPageSize() int32 {
+	if x != nil {
+		return x.PageSize
+	}
+	return 0
+}
+
+func (x *GetMyArtworksRequest) GetStatus() int32 {
+	if x != nil {
+		return x.Status
+	}
+	return 0
+}
+
 type UploadImageRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Filename      string                 `protobuf:"bytes,1,opt,name=filename,proto3" json:"filename,omitempty"`                          // 文件名
-	Content       []byte                 `protobuf:"bytes,2,opt,name=content,proto3" json:"content,omitempty"`                            // 图片内容
-	ContentType   string                 `protobuf:"bytes,3,opt,name=content_type,json=contentType,proto3" json:"content_type,omitempty"` // 内容类型（如 image/jpeg）
+	Filename      string                 `protobuf:"bytes,1,opt,name=filename,proto3" json:"filename,omitempty"`
+	Content       []byte                 `protobuf:"bytes,2,opt,name=content,proto3" json:"content,omitempty"`
+	ContentType   string                 `protobuf:"bytes,3,opt,name=content_type,json=contentType,proto3" json:"content_type,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *UploadImageRequest) Reset() {
 	*x = UploadImageRequest{}
-	mi := &file_api_artwork_v1_artwork_proto_msgTypes[11]
+	mi := &file_artwork_v1_artwork_proto_msgTypes[13]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1054,7 +1370,7 @@ func (x *UploadImageRequest) String() string {
 func (*UploadImageRequest) ProtoMessage() {}
 
 func (x *UploadImageRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_artwork_v1_artwork_proto_msgTypes[11]
+	mi := &file_artwork_v1_artwork_proto_msgTypes[13]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1067,7 +1383,7 @@ func (x *UploadImageRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UploadImageRequest.ProtoReflect.Descriptor instead.
 func (*UploadImageRequest) Descriptor() ([]byte, []int) {
-	return file_api_artwork_v1_artwork_proto_rawDescGZIP(), []int{11}
+	return file_artwork_v1_artwork_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *UploadImageRequest) GetFilename() string {
@@ -1091,18 +1407,17 @@ func (x *UploadImageRequest) GetContentType() string {
 	return ""
 }
 
-// 上传图片响应
 type UploadImageReply struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Url           string                 `protobuf:"bytes,1,opt,name=url,proto3" json:"url,omitempty"`           // 图片URL
-	Filename      string                 `protobuf:"bytes,2,opt,name=filename,proto3" json:"filename,omitempty"` // 文件名
+	Url           string                 `protobuf:"bytes,1,opt,name=url,proto3" json:"url,omitempty"`
+	Filename      string                 `protobuf:"bytes,2,opt,name=filename,proto3" json:"filename,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *UploadImageReply) Reset() {
 	*x = UploadImageReply{}
-	mi := &file_api_artwork_v1_artwork_proto_msgTypes[12]
+	mi := &file_artwork_v1_artwork_proto_msgTypes[14]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1114,7 +1429,7 @@ func (x *UploadImageReply) String() string {
 func (*UploadImageReply) ProtoMessage() {}
 
 func (x *UploadImageReply) ProtoReflect() protoreflect.Message {
-	mi := &file_api_artwork_v1_artwork_proto_msgTypes[12]
+	mi := &file_artwork_v1_artwork_proto_msgTypes[14]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1127,7 +1442,7 @@ func (x *UploadImageReply) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UploadImageReply.ProtoReflect.Descriptor instead.
 func (*UploadImageReply) Descriptor() ([]byte, []int) {
-	return file_api_artwork_v1_artwork_proto_rawDescGZIP(), []int{12}
+	return file_artwork_v1_artwork_proto_rawDescGZIP(), []int{14}
 }
 
 func (x *UploadImageReply) GetUrl() string {
@@ -1144,36 +1459,62 @@ func (x *UploadImageReply) GetFilename() string {
 	return ""
 }
 
-var File_api_artwork_v1_artwork_proto protoreflect.FileDescriptor
+var File_artwork_v1_artwork_proto protoreflect.FileDescriptor
 
-const file_api_artwork_v1_artwork_proto_rawDesc = "" +
+const file_artwork_v1_artwork_proto_rawDesc = "" +
 	"\n" +
-	"\x1capi/artwork/v1/artwork.proto\x12\n" +
-	"artwork.v1\x1a\x1cgoogle/api/annotations.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xc1\x04\n" +
+	"\x18artwork/v1/artwork.proto\x12\n" +
+	"artwork.v1\x1a\x1cgoogle/api/annotations.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"j\n" +
+	"\fArtworkImage\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x10\n" +
+	"\x03url\x18\x02 \x01(\tR\x03url\x12\x19\n" +
+	"\bis_cover\x18\x03 \x01(\bR\aisCover\x12\x1d\n" +
+	"\n" +
+	"sort_order\x18\x04 \x01(\x05R\tsortOrder\"\xbb\b\n" +
 	"\vArtworkInfo\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x14\n" +
-	"\x05title\x18\x02 \x01(\tR\x05title\x12 \n" +
-	"\vdescription\x18\x03 \x01(\tR\vdescription\x12\x16\n" +
-	"\x06author\x18\x04 \x01(\tR\x06author\x12\x12\n" +
-	"\x04year\x18\x05 \x01(\x05R\x04year\x12\x14\n" +
-	"\x05width\x18\x06 \x01(\x01R\x05width\x12\x16\n" +
-	"\x06height\x18\a \x01(\x01R\x06height\x12\x1a\n" +
-	"\bmaterial\x18\b \x01(\tR\bmaterial\x12\x14\n" +
-	"\x05price\x18\t \x01(\x01R\x05price\x12!\n" +
-	"\fis_collected\x18\n" +
-	" \x01(\bR\visCollected\x12\x1a\n" +
-	"\blocation\x18\v \x01(\tR\blocation\x12\x14\n" +
-	"\x05style\x18\f \x01(\tR\x05style\x12\x1c\n" +
-	"\ttechnique\x18\r \x01(\tR\ttechnique\x12\x1b\n" +
-	"\timage_url\x18\x0e \x01(\tR\bimageUrl\x12\x1f\n" +
-	"\vcategory_id\x18\x0f \x01(\x03R\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x17\n" +
+	"\auser_id\x18\x02 \x01(\x03R\x06userId\x12\x1a\n" +
+	"\busername\x18\x03 \x01(\tR\busername\x12#\n" +
+	"\ruser_nickname\x18\x04 \x01(\tR\fuserNickname\x12&\n" +
+	"\x0fuser_avatar_url\x18\x05 \x01(\tR\ruserAvatarUrl\x12\x14\n" +
+	"\x05title\x18\x06 \x01(\tR\x05title\x12 \n" +
+	"\vdescription\x18\a \x01(\tR\vdescription\x12\x16\n" +
+	"\x06author\x18\b \x01(\tR\x06author\x12\x12\n" +
+	"\x04year\x18\t \x01(\x05R\x04year\x12\x14\n" +
+	"\x05width\x18\n" +
+	" \x01(\x01R\x05width\x12\x16\n" +
+	"\x06height\x18\v \x01(\x01R\x06height\x12\x1a\n" +
+	"\bmaterial\x18\f \x01(\tR\bmaterial\x12\x14\n" +
+	"\x05price\x18\r \x01(\x01R\x05price\x12!\n" +
+	"\fis_collected\x18\x0e \x01(\bR\visCollected\x12\x1a\n" +
+	"\blocation\x18\x0f \x01(\tR\blocation\x12\x14\n" +
+	"\x05style\x18\x10 \x01(\tR\x05style\x12\x1c\n" +
+	"\ttechnique\x18\x11 \x01(\tR\ttechnique\x12\x1b\n" +
+	"\timage_url\x18\x12 \x01(\tR\bimageUrl\x12&\n" +
+	"\x0fcover_image_url\x18\x13 \x01(\tR\rcoverImageUrl\x12\x1f\n" +
+	"\vcategory_id\x18\x14 \x01(\x03R\n" +
 	"categoryId\x12#\n" +
-	"\rcategory_name\x18\x10 \x01(\tR\fcategoryName\x12\x12\n" +
-	"\x04tags\x18\x11 \x03(\tR\x04tags\x129\n" +
+	"\rcategory_name\x18\x15 \x01(\tR\fcategoryName\x12\x12\n" +
+	"\x04tags\x18\x16 \x03(\tR\x04tags\x120\n" +
+	"\x06images\x18\x17 \x03(\v2\x18.artwork.v1.ArtworkImageR\x06images\x12\x16\n" +
+	"\x06status\x18\x18 \x01(\x05R\x06status\x12\x1e\n" +
 	"\n" +
-	"created_at\x18\x12 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
+	"visibility\x18\x19 \x01(\x05R\n" +
+	"visibility\x12\x1d\n" +
 	"\n" +
-	"updated_at\x18\x13 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\"\x9f\x03\n" +
+	"view_count\x18\x1a \x01(\x03R\tviewCount\x12\x1d\n" +
+	"\n" +
+	"like_count\x18\x1b \x01(\x03R\tlikeCount\x12%\n" +
+	"\x0efavorite_count\x18\x1c \x01(\x03R\rfavoriteCount\x12#\n" +
+	"\rcomment_count\x18\x1d \x01(\x03R\fcommentCount\x12\x1f\n" +
+	"\vshare_count\x18\x1e \x01(\x03R\n" +
+	"shareCount\x129\n" +
+	"\n" +
+	"publish_at\x18\x1f \x01(\v2\x1a.google.protobuf.TimestampR\tpublishAt\x129\n" +
+	"\n" +
+	"created_at\x18  \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
+	"\n" +
+	"updated_at\x18! \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\"\x9e\x04\n" +
 	"\x14CreateArtworkRequest\x12\x14\n" +
 	"\x05title\x18\x01 \x01(\tR\x05title\x12 \n" +
 	"\vdescription\x18\x02 \x01(\tR\vdescription\x12\x16\n" +
@@ -1191,9 +1532,16 @@ const file_api_artwork_v1_artwork_proto_rawDesc = "" +
 	"\timage_url\x18\r \x01(\tR\bimageUrl\x12\x1f\n" +
 	"\vcategory_id\x18\x0e \x01(\x03R\n" +
 	"categoryId\x12\x12\n" +
-	"\x04tags\x18\x0f \x03(\tR\x04tags\"G\n" +
+	"\x04tags\x18\x0f \x03(\tR\x04tags\x12\x1d\n" +
+	"\n" +
+	"image_urls\x18\x10 \x03(\tR\timageUrls\x12&\n" +
+	"\x0fcover_image_url\x18\x11 \x01(\tR\rcoverImageUrl\x12\x16\n" +
+	"\x06status\x18\x12 \x01(\x05R\x06status\x12\x1e\n" +
+	"\n" +
+	"visibility\x18\x13 \x01(\x05R\n" +
+	"visibility\"G\n" +
 	"\x12CreateArtworkReply\x121\n" +
-	"\aartwork\x18\x01 \x01(\v2\x17.artwork.v1.ArtworkInfoR\aartwork\"\xaf\x03\n" +
+	"\aartwork\x18\x01 \x01(\v2\x17.artwork.v1.ArtworkInfoR\aartwork\"\xae\x04\n" +
 	"\x14UpdateArtworkRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x14\n" +
 	"\x05title\x18\x02 \x01(\tR\x05title\x12 \n" +
@@ -1212,7 +1560,14 @@ const file_api_artwork_v1_artwork_proto_rawDesc = "" +
 	"\timage_url\x18\x0e \x01(\tR\bimageUrl\x12\x1f\n" +
 	"\vcategory_id\x18\x0f \x01(\x03R\n" +
 	"categoryId\x12\x12\n" +
-	"\x04tags\x18\x10 \x03(\tR\x04tags\"G\n" +
+	"\x04tags\x18\x10 \x03(\tR\x04tags\x12\x1d\n" +
+	"\n" +
+	"image_urls\x18\x11 \x03(\tR\timageUrls\x12&\n" +
+	"\x0fcover_image_url\x18\x12 \x01(\tR\rcoverImageUrl\x12\x16\n" +
+	"\x06status\x18\x13 \x01(\x05R\x06status\x12\x1e\n" +
+	"\n" +
+	"visibility\x18\x14 \x01(\x05R\n" +
+	"visibility\"G\n" +
 	"\x12UpdateArtworkReply\x121\n" +
 	"\aartwork\x18\x01 \x01(\v2\x17.artwork.v1.ArtworkInfoR\aartwork\"&\n" +
 	"\x14DeleteArtworkRequest\x12\x0e\n" +
@@ -1222,7 +1577,7 @@ const file_api_artwork_v1_artwork_proto_rawDesc = "" +
 	"\x11GetArtworkRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\"D\n" +
 	"\x0fGetArtworkReply\x121\n" +
-	"\aartwork\x18\x01 \x01(\v2\x17.artwork.v1.ArtworkInfoR\aartwork\"\xb6\x03\n" +
+	"\aartwork\x18\x01 \x01(\v2\x17.artwork.v1.ArtworkInfoR\aartwork\"\x87\x04\n" +
 	"\x14SearchArtworkRequest\x12\x18\n" +
 	"\akeyword\x18\x01 \x01(\tR\akeyword\x12\x1b\n" +
 	"\tyear_from\x18\x02 \x01(\x05R\byearFrom\x12\x17\n" +
@@ -1243,104 +1598,120 @@ const file_api_artwork_v1_artwork_proto_rawDesc = "" +
 	"\tpage_size\x18\r \x01(\x05R\bpageSize\x12\x17\n" +
 	"\asort_by\x18\x0e \x01(\tR\x06sortBy\x12\x1d\n" +
 	"\n" +
-	"sort_order\x18\x0f \x01(\tR\tsortOrder\"\x90\x01\n" +
+	"sort_order\x18\x0f \x01(\tR\tsortOrder\x12\x17\n" +
+	"\auser_id\x18\x10 \x01(\x03R\x06userId\x12\x1e\n" +
+	"\n" +
+	"visibility\x18\x11 \x01(\x05R\n" +
+	"visibility\x12\x16\n" +
+	"\x06status\x18\x12 \x01(\x05R\x06status\"\x90\x01\n" +
 	"\x12SearchArtworkReply\x123\n" +
 	"\bartworks\x18\x01 \x03(\v2\x17.artwork.v1.ArtworkInfoR\bartworks\x12\x14\n" +
 	"\x05total\x18\x02 \x01(\x05R\x05total\x12\x12\n" +
 	"\x04page\x18\x03 \x01(\x05R\x04page\x12\x1b\n" +
-	"\tpage_size\x18\x04 \x01(\x05R\bpageSize\"m\n" +
+	"\tpage_size\x18\x04 \x01(\x05R\bpageSize\"_\n" +
+	"\x14GetMyArtworksRequest\x12\x12\n" +
+	"\x04page\x18\x01 \x01(\x05R\x04page\x12\x1b\n" +
+	"\tpage_size\x18\x02 \x01(\x05R\bpageSize\x12\x16\n" +
+	"\x06status\x18\x03 \x01(\x05R\x06status\"m\n" +
 	"\x12UploadImageRequest\x12\x1a\n" +
 	"\bfilename\x18\x01 \x01(\tR\bfilename\x12\x18\n" +
 	"\acontent\x18\x02 \x01(\fR\acontent\x12!\n" +
 	"\fcontent_type\x18\x03 \x01(\tR\vcontentType\"@\n" +
 	"\x10UploadImageReply\x12\x10\n" +
 	"\x03url\x18\x01 \x01(\tR\x03url\x12\x1a\n" +
-	"\bfilename\x18\x02 \x01(\tR\bfilename2\xc7\x05\n" +
-	"\x0eArtworkService\x12q\n" +
-	"\rCreateArtwork\x12 .artwork.v1.CreateArtworkRequest\x1a\x1e.artwork.v1.CreateArtworkReply\"\x1e\x82\xd3\xe4\x93\x02\x18:\x01*\"\x13/v1/artwork/artwork\x12v\n" +
-	"\rUpdateArtwork\x12 .artwork.v1.UpdateArtworkRequest\x1a\x1e.artwork.v1.UpdateArtworkReply\"#\x82\xd3\xe4\x93\x02\x1d:\x01*\x1a\x18/v1/artwork/artwork/{id}\x12s\n" +
-	"\rDeleteArtwork\x12 .artwork.v1.DeleteArtworkRequest\x1a\x1e.artwork.v1.DeleteArtworkReply\" \x82\xd3\xe4\x93\x02\x1a*\x18/v1/artwork/artwork/{id}\x12j\n" +
+	"\bfilename\x18\x02 \x01(\tR\bfilename2\x82\x06\n" +
+	"\x0eArtworkService\x12j\n" +
+	"\rCreateArtwork\x12 .artwork.v1.CreateArtworkRequest\x1a\x1e.artwork.v1.CreateArtworkReply\"\x17\x82\xd3\xe4\x93\x02\x11:\x01*\"\f/v1/artworks\x12o\n" +
+	"\rUpdateArtwork\x12 .artwork.v1.UpdateArtworkRequest\x1a\x1e.artwork.v1.UpdateArtworkReply\"\x1c\x82\xd3\xe4\x93\x02\x16:\x01*\x1a\x11/v1/artworks/{id}\x12l\n" +
+	"\rDeleteArtwork\x12 .artwork.v1.DeleteArtworkRequest\x1a\x1e.artwork.v1.DeleteArtworkReply\"\x19\x82\xd3\xe4\x93\x02\x13*\x11/v1/artworks/{id}\x12c\n" +
 	"\n" +
-	"GetArtwork\x12\x1d.artwork.v1.GetArtworkRequest\x1a\x1b.artwork.v1.GetArtworkReply\" \x82\xd3\xe4\x93\x02\x1a\x12\x18/v1/artwork/artwork/{id}\x12u\n" +
-	"\rSearchArtwork\x12 .artwork.v1.SearchArtworkRequest\x1a\x1e.artwork.v1.SearchArtworkReply\"\"\x82\xd3\xe4\x93\x02\x1c\x12\x1a/v1/artwork/artwork/search\x12r\n" +
-	"\vUploadImage\x12\x1e.artwork.v1.UploadImageRequest\x1a\x1c.artwork.v1.UploadImageReply\"%\x82\xd3\xe4\x93\x02\x1f:\x01*\"\x1a/v1/artwork/artwork/uploadBH\n" +
+	"GetArtwork\x12\x1d.artwork.v1.GetArtworkRequest\x1a\x1b.artwork.v1.GetArtworkReply\"\x19\x82\xd3\xe4\x93\x02\x13\x12\x11/v1/artworks/{id}\x12g\n" +
+	"\rSearchArtwork\x12 .artwork.v1.SearchArtworkRequest\x1a\x1e.artwork.v1.SearchArtworkReply\"\x14\x82\xd3\xe4\x93\x02\x0e\x12\f/v1/artworks\x12j\n" +
+	"\rGetMyArtworks\x12 .artwork.v1.GetMyArtworksRequest\x1a\x1e.artwork.v1.SearchArtworkReply\"\x17\x82\xd3\xe4\x93\x02\x11\x12\x0f/v1/me/artworks\x12k\n" +
+	"\vUploadImage\x12\x1e.artwork.v1.UploadImageRequest\x1a\x1c.artwork.v1.UploadImageReply\"\x1e\x82\xd3\xe4\x93\x02\x18:\x01*\"\x13/v1/artworks/uploadBH\n" +
 	"\x19dev.kratos.api.artwork.v1B\x0eArtworkProtoV1P\x01Z\x19artwork/api/artwork/v1;v1b\x06proto3"
 
 var (
-	file_api_artwork_v1_artwork_proto_rawDescOnce sync.Once
-	file_api_artwork_v1_artwork_proto_rawDescData []byte
+	file_artwork_v1_artwork_proto_rawDescOnce sync.Once
+	file_artwork_v1_artwork_proto_rawDescData []byte
 )
 
-func file_api_artwork_v1_artwork_proto_rawDescGZIP() []byte {
-	file_api_artwork_v1_artwork_proto_rawDescOnce.Do(func() {
-		file_api_artwork_v1_artwork_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_api_artwork_v1_artwork_proto_rawDesc), len(file_api_artwork_v1_artwork_proto_rawDesc)))
+func file_artwork_v1_artwork_proto_rawDescGZIP() []byte {
+	file_artwork_v1_artwork_proto_rawDescOnce.Do(func() {
+		file_artwork_v1_artwork_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_artwork_v1_artwork_proto_rawDesc), len(file_artwork_v1_artwork_proto_rawDesc)))
 	})
-	return file_api_artwork_v1_artwork_proto_rawDescData
+	return file_artwork_v1_artwork_proto_rawDescData
 }
 
-var file_api_artwork_v1_artwork_proto_msgTypes = make([]protoimpl.MessageInfo, 13)
-var file_api_artwork_v1_artwork_proto_goTypes = []any{
-	(*ArtworkInfo)(nil),           // 0: artwork.v1.ArtworkInfo
-	(*CreateArtworkRequest)(nil),  // 1: artwork.v1.CreateArtworkRequest
-	(*CreateArtworkReply)(nil),    // 2: artwork.v1.CreateArtworkReply
-	(*UpdateArtworkRequest)(nil),  // 3: artwork.v1.UpdateArtworkRequest
-	(*UpdateArtworkReply)(nil),    // 4: artwork.v1.UpdateArtworkReply
-	(*DeleteArtworkRequest)(nil),  // 5: artwork.v1.DeleteArtworkRequest
-	(*DeleteArtworkReply)(nil),    // 6: artwork.v1.DeleteArtworkReply
-	(*GetArtworkRequest)(nil),     // 7: artwork.v1.GetArtworkRequest
-	(*GetArtworkReply)(nil),       // 8: artwork.v1.GetArtworkReply
-	(*SearchArtworkRequest)(nil),  // 9: artwork.v1.SearchArtworkRequest
-	(*SearchArtworkReply)(nil),    // 10: artwork.v1.SearchArtworkReply
-	(*UploadImageRequest)(nil),    // 11: artwork.v1.UploadImageRequest
-	(*UploadImageReply)(nil),      // 12: artwork.v1.UploadImageReply
-	(*timestamppb.Timestamp)(nil), // 13: google.protobuf.Timestamp
+var file_artwork_v1_artwork_proto_msgTypes = make([]protoimpl.MessageInfo, 15)
+var file_artwork_v1_artwork_proto_goTypes = []any{
+	(*ArtworkImage)(nil),          // 0: artwork.v1.ArtworkImage
+	(*ArtworkInfo)(nil),           // 1: artwork.v1.ArtworkInfo
+	(*CreateArtworkRequest)(nil),  // 2: artwork.v1.CreateArtworkRequest
+	(*CreateArtworkReply)(nil),    // 3: artwork.v1.CreateArtworkReply
+	(*UpdateArtworkRequest)(nil),  // 4: artwork.v1.UpdateArtworkRequest
+	(*UpdateArtworkReply)(nil),    // 5: artwork.v1.UpdateArtworkReply
+	(*DeleteArtworkRequest)(nil),  // 6: artwork.v1.DeleteArtworkRequest
+	(*DeleteArtworkReply)(nil),    // 7: artwork.v1.DeleteArtworkReply
+	(*GetArtworkRequest)(nil),     // 8: artwork.v1.GetArtworkRequest
+	(*GetArtworkReply)(nil),       // 9: artwork.v1.GetArtworkReply
+	(*SearchArtworkRequest)(nil),  // 10: artwork.v1.SearchArtworkRequest
+	(*SearchArtworkReply)(nil),    // 11: artwork.v1.SearchArtworkReply
+	(*GetMyArtworksRequest)(nil),  // 12: artwork.v1.GetMyArtworksRequest
+	(*UploadImageRequest)(nil),    // 13: artwork.v1.UploadImageRequest
+	(*UploadImageReply)(nil),      // 14: artwork.v1.UploadImageReply
+	(*timestamppb.Timestamp)(nil), // 15: google.protobuf.Timestamp
 }
-var file_api_artwork_v1_artwork_proto_depIdxs = []int32{
-	13, // 0: artwork.v1.ArtworkInfo.created_at:type_name -> google.protobuf.Timestamp
-	13, // 1: artwork.v1.ArtworkInfo.updated_at:type_name -> google.protobuf.Timestamp
-	0,  // 2: artwork.v1.CreateArtworkReply.artwork:type_name -> artwork.v1.ArtworkInfo
-	0,  // 3: artwork.v1.UpdateArtworkReply.artwork:type_name -> artwork.v1.ArtworkInfo
-	0,  // 4: artwork.v1.GetArtworkReply.artwork:type_name -> artwork.v1.ArtworkInfo
-	0,  // 5: artwork.v1.SearchArtworkReply.artworks:type_name -> artwork.v1.ArtworkInfo
-	1,  // 6: artwork.v1.ArtworkService.CreateArtwork:input_type -> artwork.v1.CreateArtworkRequest
-	3,  // 7: artwork.v1.ArtworkService.UpdateArtwork:input_type -> artwork.v1.UpdateArtworkRequest
-	5,  // 8: artwork.v1.ArtworkService.DeleteArtwork:input_type -> artwork.v1.DeleteArtworkRequest
-	7,  // 9: artwork.v1.ArtworkService.GetArtwork:input_type -> artwork.v1.GetArtworkRequest
-	9,  // 10: artwork.v1.ArtworkService.SearchArtwork:input_type -> artwork.v1.SearchArtworkRequest
-	11, // 11: artwork.v1.ArtworkService.UploadImage:input_type -> artwork.v1.UploadImageRequest
-	2,  // 12: artwork.v1.ArtworkService.CreateArtwork:output_type -> artwork.v1.CreateArtworkReply
-	4,  // 13: artwork.v1.ArtworkService.UpdateArtwork:output_type -> artwork.v1.UpdateArtworkReply
-	6,  // 14: artwork.v1.ArtworkService.DeleteArtwork:output_type -> artwork.v1.DeleteArtworkReply
-	8,  // 15: artwork.v1.ArtworkService.GetArtwork:output_type -> artwork.v1.GetArtworkReply
-	10, // 16: artwork.v1.ArtworkService.SearchArtwork:output_type -> artwork.v1.SearchArtworkReply
-	12, // 17: artwork.v1.ArtworkService.UploadImage:output_type -> artwork.v1.UploadImageReply
-	12, // [12:18] is the sub-list for method output_type
-	6,  // [6:12] is the sub-list for method input_type
-	6,  // [6:6] is the sub-list for extension type_name
-	6,  // [6:6] is the sub-list for extension extendee
-	0,  // [0:6] is the sub-list for field type_name
+var file_artwork_v1_artwork_proto_depIdxs = []int32{
+	0,  // 0: artwork.v1.ArtworkInfo.images:type_name -> artwork.v1.ArtworkImage
+	15, // 1: artwork.v1.ArtworkInfo.publish_at:type_name -> google.protobuf.Timestamp
+	15, // 2: artwork.v1.ArtworkInfo.created_at:type_name -> google.protobuf.Timestamp
+	15, // 3: artwork.v1.ArtworkInfo.updated_at:type_name -> google.protobuf.Timestamp
+	1,  // 4: artwork.v1.CreateArtworkReply.artwork:type_name -> artwork.v1.ArtworkInfo
+	1,  // 5: artwork.v1.UpdateArtworkReply.artwork:type_name -> artwork.v1.ArtworkInfo
+	1,  // 6: artwork.v1.GetArtworkReply.artwork:type_name -> artwork.v1.ArtworkInfo
+	1,  // 7: artwork.v1.SearchArtworkReply.artworks:type_name -> artwork.v1.ArtworkInfo
+	2,  // 8: artwork.v1.ArtworkService.CreateArtwork:input_type -> artwork.v1.CreateArtworkRequest
+	4,  // 9: artwork.v1.ArtworkService.UpdateArtwork:input_type -> artwork.v1.UpdateArtworkRequest
+	6,  // 10: artwork.v1.ArtworkService.DeleteArtwork:input_type -> artwork.v1.DeleteArtworkRequest
+	8,  // 11: artwork.v1.ArtworkService.GetArtwork:input_type -> artwork.v1.GetArtworkRequest
+	10, // 12: artwork.v1.ArtworkService.SearchArtwork:input_type -> artwork.v1.SearchArtworkRequest
+	12, // 13: artwork.v1.ArtworkService.GetMyArtworks:input_type -> artwork.v1.GetMyArtworksRequest
+	13, // 14: artwork.v1.ArtworkService.UploadImage:input_type -> artwork.v1.UploadImageRequest
+	3,  // 15: artwork.v1.ArtworkService.CreateArtwork:output_type -> artwork.v1.CreateArtworkReply
+	5,  // 16: artwork.v1.ArtworkService.UpdateArtwork:output_type -> artwork.v1.UpdateArtworkReply
+	7,  // 17: artwork.v1.ArtworkService.DeleteArtwork:output_type -> artwork.v1.DeleteArtworkReply
+	9,  // 18: artwork.v1.ArtworkService.GetArtwork:output_type -> artwork.v1.GetArtworkReply
+	11, // 19: artwork.v1.ArtworkService.SearchArtwork:output_type -> artwork.v1.SearchArtworkReply
+	11, // 20: artwork.v1.ArtworkService.GetMyArtworks:output_type -> artwork.v1.SearchArtworkReply
+	14, // 21: artwork.v1.ArtworkService.UploadImage:output_type -> artwork.v1.UploadImageReply
+	15, // [15:22] is the sub-list for method output_type
+	8,  // [8:15] is the sub-list for method input_type
+	8,  // [8:8] is the sub-list for extension type_name
+	8,  // [8:8] is the sub-list for extension extendee
+	0,  // [0:8] is the sub-list for field type_name
 }
 
-func init() { file_api_artwork_v1_artwork_proto_init() }
-func file_api_artwork_v1_artwork_proto_init() {
-	if File_api_artwork_v1_artwork_proto != nil {
+func init() { file_artwork_v1_artwork_proto_init() }
+func file_artwork_v1_artwork_proto_init() {
+	if File_artwork_v1_artwork_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_api_artwork_v1_artwork_proto_rawDesc), len(file_api_artwork_v1_artwork_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_artwork_v1_artwork_proto_rawDesc), len(file_artwork_v1_artwork_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   13,
+			NumMessages:   15,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_api_artwork_v1_artwork_proto_goTypes,
-		DependencyIndexes: file_api_artwork_v1_artwork_proto_depIdxs,
-		MessageInfos:      file_api_artwork_v1_artwork_proto_msgTypes,
+		GoTypes:           file_artwork_v1_artwork_proto_goTypes,
+		DependencyIndexes: file_artwork_v1_artwork_proto_depIdxs,
+		MessageInfos:      file_artwork_v1_artwork_proto_msgTypes,
 	}.Build()
-	File_api_artwork_v1_artwork_proto = out.File
-	file_api_artwork_v1_artwork_proto_goTypes = nil
-	file_api_artwork_v1_artwork_proto_depIdxs = nil
+	File_artwork_v1_artwork_proto = out.File
+	file_artwork_v1_artwork_proto_goTypes = nil
+	file_artwork_v1_artwork_proto_depIdxs = nil
 }

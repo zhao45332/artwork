@@ -20,10 +20,12 @@ var _ = binding.EncodeURL
 const _ = http.SupportPackageIsVersion1
 
 const OperationUserServiceGetUserProfile = "/user.v1.UserService/GetUserProfile"
+const OperationUserServiceListCategories = "/user.v1.UserService/ListCategories"
 const OperationUserServiceUpdateMyProfile = "/user.v1.UserService/UpdateMyProfile"
 
 type UserServiceHTTPServer interface {
 	GetUserProfile(context.Context, *GetUserProfileRequest) (*GetUserProfileReply, error)
+	ListCategories(context.Context, *ListCategoriesRequest) (*ListCategoriesReply, error)
 	UpdateMyProfile(context.Context, *UpdateMyProfileRequest) (*UpdateMyProfileReply, error)
 }
 
@@ -31,6 +33,7 @@ func RegisterUserServiceHTTPServer(s *http.Server, srv UserServiceHTTPServer) {
 	r := s.Route("/")
 	r.GET("/v1/users/{id}", _UserService_GetUserProfile0_HTTP_Handler(srv))
 	r.PUT("/v1/users/me", _UserService_UpdateMyProfile0_HTTP_Handler(srv))
+	r.GET("/v1/categories", _UserService_ListCategories0_HTTP_Handler(srv))
 }
 
 func _UserService_GetUserProfile0_HTTP_Handler(srv UserServiceHTTPServer) func(ctx http.Context) error {
@@ -77,8 +80,28 @@ func _UserService_UpdateMyProfile0_HTTP_Handler(srv UserServiceHTTPServer) func(
 	}
 }
 
+func _UserService_ListCategories0_HTTP_Handler(srv UserServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in ListCategoriesRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationUserServiceListCategories)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.ListCategories(ctx, req.(*ListCategoriesRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*ListCategoriesReply)
+		return ctx.Result(200, reply)
+	}
+}
+
 type UserServiceHTTPClient interface {
 	GetUserProfile(ctx context.Context, req *GetUserProfileRequest, opts ...http.CallOption) (rsp *GetUserProfileReply, err error)
+	ListCategories(ctx context.Context, req *ListCategoriesRequest, opts ...http.CallOption) (rsp *ListCategoriesReply, err error)
 	UpdateMyProfile(ctx context.Context, req *UpdateMyProfileRequest, opts ...http.CallOption) (rsp *UpdateMyProfileReply, err error)
 }
 
@@ -95,6 +118,19 @@ func (c *UserServiceHTTPClientImpl) GetUserProfile(ctx context.Context, in *GetU
 	pattern := "/v1/users/{id}"
 	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation(OperationUserServiceGetUserProfile))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *UserServiceHTTPClientImpl) ListCategories(ctx context.Context, in *ListCategoriesRequest, opts ...http.CallOption) (*ListCategoriesReply, error) {
+	var out ListCategoriesReply
+	pattern := "/v1/categories"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationUserServiceListCategories))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
 	if err != nil {
