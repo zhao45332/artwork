@@ -1,0 +1,97 @@
+syntax = "proto3";
+
+package auth.v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "artwork/api/auth/v1;v1";
+option java_multiple_files = true;
+option java_package = "dev.kratos.api.auth.v1";
+option java_outer_classname = "AuthProtoV1";
+
+service AuthService {
+  rpc Register (RegisterRequest) returns (AuthReply) {
+    option (google.api.http) = {
+      post: "/v1/auth/register"
+      body: "*"
+    };
+  }
+
+  rpc Login (LoginRequest) returns (AuthReply) {
+    option (google.api.http) = {
+      post: "/v1/auth/login"
+      body: "*"
+    };
+  }
+
+  rpc RefreshToken (RefreshTokenRequest) returns (AuthReply) {
+    option (google.api.http) = {
+      post: "/v1/auth/refresh"
+      body: "*"
+    };
+  }
+
+  rpc Logout (LogoutRequest) returns (LogoutReply) {
+    option (google.api.http) = {
+      post: "/v1/auth/logout"
+      body: "*"
+    };
+  }
+
+  rpc GetCurrentUser (GetCurrentUserRequest) returns (GetCurrentUserReply) {
+    option (google.api.http) = {
+      get: "/v1/auth/me"
+    };
+  }
+}
+
+message UserInfo {
+  int64 id = 1;
+  string username = 2;
+  string nickname = 3;
+  string avatar_url = 4;
+  string bio = 5;
+  string email = 6;
+  int32 role = 7;
+  int32 status = 8;
+  google.protobuf.Timestamp created_at = 9;
+  google.protobuf.Timestamp updated_at = 10;
+}
+
+message AuthReply {
+  string access_token = 1;
+  string refresh_token = 2;
+  int64 expires_in = 3;
+  UserInfo user = 4;
+}
+
+message RegisterRequest {
+  string username = 1;
+  string password = 2;
+  string nickname = 3;
+  string email = 4;
+}
+
+message LoginRequest {
+  string account = 1;
+  string password = 2;
+}
+
+message RefreshTokenRequest {
+  string refresh_token = 1;
+}
+
+message LogoutRequest {
+  string refresh_token = 1;
+}
+
+message LogoutReply {
+  bool success = 1;
+}
+
+message GetCurrentUserRequest {}
+
+message GetCurrentUserReply {
+  UserInfo user = 1;
+}

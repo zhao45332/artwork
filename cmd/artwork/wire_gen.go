@@ -12,6 +12,7 @@ import (
 	"artwork/internal/data"
 	"artwork/internal/server"
 	"artwork/internal/service"
+
 	"github.com/go-kratos/kratos/v2"
 	"github.com/go-kratos/kratos/v2/log"
 )
@@ -31,12 +32,29 @@ func wireApp(confServer *conf.Server, confData *conf.Data, logger log.Logger) (*
 	artworkRepo := data.NewArtworkRepo(dataData, logger)
 	categoryRepo := data.NewCategoryRepo(dataData, logger)
 	tagRepo := data.NewTagRepo(dataData, logger)
-	string2 := data.NewBucketName(confData)
-	imageRepo := data.NewImageRepo(dataData, string2, logger)
-	artworkUsecase := biz.NewArtworkUsecase(artworkRepo, categoryRepo, tagRepo, imageRepo, string2, logger)
+	bucketName := data.NewBucketName(confData)
+	imageRepo := data.NewImageRepo(dataData, bucketName, logger)
+	artworkUsecase := biz.NewArtworkUsecase(artworkRepo, categoryRepo, tagRepo, imageRepo, bucketName, logger)
 	artworkService := service.NewArtworkService(artworkUsecase, logger)
-	grpcServer := server.NewGRPCServer(confServer, artworkService, logger)
-	httpServer := server.NewHTTPServer(confServer, artworkService, logger)
+
+	rdb := data.NewRedisClient(dataData)
+	authRedisRepo := data.NewAuthRedisRepo(rdb)
+	db := data.NewDB(dataData)
+	userDataRepo := data.NewUserDataRepo(db, logger)
+	tokenManager, err := data.NewTokenManager(confData)
+	if err != nil {
+		cleanup()
+		return nil, nil, err
+	}
+	authUsecase := biz.NewAuthUsecase(userDataRepo, authRedisRepo, tokenManager, logger)
+	authService := service.NewAuthService(authUsecase, logger)
+	userUsecase := biz.NewUserUsecase(userDataRepo, logger)
+	userService := service.NewUserService(userUsecase, logger)
+
+	authMiddleware := server.NewAuthMiddleware(tokenManager)
+
+	grpcServer := server.NewGRPCServer(confServer, artworkService, authService, userService, authMiddleware, logger)
+	httpServer := server.NewHTTPServer(confServer, artworkService, authService, userService, dataData, bucketName, authMiddleware, logger)
 	app := newApp(logger, grpcServer, httpServer)
 	return app, func() {
 		cleanup()

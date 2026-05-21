@@ -18,13 +18,26 @@ import (
 )
 
 // ProviderSet is data providers.
-var ProviderSet = wire.NewSet(NewData, NewArtworkRepo, NewCategoryRepo, NewTagRepo, NewImageRepo, NewBucketName)
+var ProviderSet = wire.NewSet(
+	NewData,
+	NewArtworkRepo,
+	NewCategoryRepo,
+	NewTagRepo,
+	NewImageRepo,
+	NewBucketName,
+	NewDB,
+	NewRedisClient,
+	NewAuthRedisRepo,
+	NewUserDataRepo,
+	NewTokenManager,
+)
 
 // Data .
 type Data struct {
-	db    *gorm.DB
-	rdb   *redis.Client
-	minio *minio.Client
+	db        *gorm.DB
+	rdb       *redis.Client
+	minio     *minio.Client
+	minioCore *minio.Core
 }
 
 // NewData .
@@ -72,9 +85,10 @@ func NewData(c *conf.Data, logger log.Logger) (*Data, func(), error) {
 	}
 
 	return &Data{
-		db:    db,
-		rdb:   rdb,
-		minio: minioClient,
+		db:        db,
+		rdb:       rdb,
+		minio:     minioClient,
+		minioCore: &minio.Core{Client: minioClient},
 	}, cleanup, nil
 }
 
@@ -175,6 +189,9 @@ func autoMigrate(db *gorm.DB, logger log.Logger) error {
 		&Category{},
 		&Tag{},
 		&Artwork{},
+		&User{},
+		&UserStats{},
+		&UserIdentity{},
 	)
 	if err != nil {
 		logHelper.Errorf("数据库表迁移失败: %v", err)

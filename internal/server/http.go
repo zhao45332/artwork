@@ -7,21 +7,25 @@ import (
 	"time"
 
 	artworkv1 "artwork/api/artwork/v1"
+	authv1 "artwork/api/auth/v1"
+	userv1 "artwork/api/user/v1"
 	"artwork/internal/conf"
 	"artwork/internal/data"
 	"artwork/internal/service"
 
 	"github.com/go-kratos/kratos/v2/log"
+	"github.com/go-kratos/kratos/v2/middleware"
 	"github.com/go-kratos/kratos/v2/middleware/recovery"
 	kratosHttp "github.com/go-kratos/kratos/v2/transport/http"
 	minio "github.com/minio/minio-go/v7"
 )
 
 // NewHTTPServer new an HTTP server.
-func NewHTTPServer(c *conf.Server, artwork *service.ArtworkService, data *data.Data, bucketName string, logger log.Logger) *kratosHttp.Server {
+func NewHTTPServer(c *conf.Server, artwork *service.ArtworkService, auth *service.AuthService, user *service.UserService, data *data.Data, bucketName string, authMiddleware middleware.Middleware, logger log.Logger) *kratosHttp.Server {
 	var opts = []kratosHttp.ServerOption{
 		kratosHttp.Middleware(
 			recovery.Recovery(),
+			authMiddleware,
 		),
 	}
 	if c.Http.Network != "" {
@@ -34,9 +38,10 @@ func NewHTTPServer(c *conf.Server, artwork *service.ArtworkService, data *data.D
 		opts = append(opts, kratosHttp.Timeout(c.Http.Timeout.AsDuration()))
 	}
 	srv := kratosHttp.NewServer(opts...)
+	authv1.RegisterAuthServiceHTTPServer(srv, auth)
 	artworkv1.RegisterArtworkServiceHTTPServer(srv, artwork)
+	userv1.RegisterUserServiceHTTPServer(srv, user)
 
-	// 注册分片上传路由
 	registerMultipartUploadRoutes(srv, data, bucketName, logger)
 
 	return srv
