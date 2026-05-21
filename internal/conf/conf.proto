@@ -47,8 +47,8 @@ message Data {
   }
   message Auth {
     string jwt_secret = 1;
-    google.protobuf.Duration access_token_expire = 2;
-    google.protobuf.Duration refresh_token_expire = 3;
+    string access_token_expire = 2;
+    string refresh_token_expire = 3;
   }
   Database database = 1;
   Redis redis = 2;

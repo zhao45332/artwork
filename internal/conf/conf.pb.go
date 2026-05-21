@@ -529,8 +529,8 @@ func (x *Data_MinIO) GetBucketName() string {
 type Data_Auth struct {
 	state              protoimpl.MessageState `protogen:"open.v1"`
 	JwtSecret          string                 `protobuf:"bytes,1,opt,name=jwt_secret,json=jwtSecret,proto3" json:"jwt_secret,omitempty"`
-	AccessTokenExpire  *durationpb.Duration   `protobuf:"bytes,2,opt,name=access_token_expire,json=accessTokenExpire,proto3" json:"access_token_expire,omitempty"`
-	RefreshTokenExpire *durationpb.Duration   `protobuf:"bytes,3,opt,name=refresh_token_expire,json=refreshTokenExpire,proto3" json:"refresh_token_expire,omitempty"`
+	AccessTokenExpire  string                 `protobuf:"bytes,2,opt,name=access_token_expire,json=accessTokenExpire,proto3" json:"access_token_expire,omitempty"`
+	RefreshTokenExpire string                 `protobuf:"bytes,3,opt,name=refresh_token_expire,json=refreshTokenExpire,proto3" json:"refresh_token_expire,omitempty"`
 	unknownFields      protoimpl.UnknownFields
 	sizeCache          protoimpl.SizeCache
 }
@@ -572,18 +572,18 @@ func (x *Data_Auth) GetJwtSecret() string {
 	return ""
 }
 
-func (x *Data_Auth) GetAccessTokenExpire() *durationpb.Duration {
+func (x *Data_Auth) GetAccessTokenExpire() string {
 	if x != nil {
 		return x.AccessTokenExpire
 	}
-	return nil
+	return ""
 }
 
-func (x *Data_Auth) GetRefreshTokenExpire() *durationpb.Duration {
+func (x *Data_Auth) GetRefreshTokenExpire() string {
 	if x != nil {
 		return x.RefreshTokenExpire
 	}
-	return nil
+	return ""
 }
 
 var File_conf_conf_proto protoreflect.FileDescriptor
@@ -605,7 +605,7 @@ const file_conf_conf_proto_rawDesc = "" +
 	"\x04GRPC\x12\x18\n" +
 	"\anetwork\x18\x01 \x01(\tR\anetwork\x12\x12\n" +
 	"\x04addr\x18\x02 \x01(\tR\x04addr\x123\n" +
-	"\atimeout\x18\x03 \x01(\v2\x19.google.protobuf.DurationR\atimeout\"\xd2\x06\n" +
+	"\atimeout\x18\x03 \x01(\v2\x19.google.protobuf.DurationR\atimeout\"\x9c\x06\n" +
 	"\x04Data\x125\n" +
 	"\bdatabase\x18\x01 \x01(\v2\x19.kratos.api.Data.DatabaseR\bdatabase\x12,\n" +
 	"\x05redis\x18\x02 \x01(\v2\x16.kratos.api.Data.RedisR\x05redis\x12,\n" +
@@ -627,12 +627,12 @@ const file_conf_conf_proto_rawDesc = "" +
 	"\x11secret_access_key\x18\x03 \x01(\tR\x0fsecretAccessKey\x12\x17\n" +
 	"\ause_ssl\x18\x04 \x01(\bR\x06useSsl\x12\x1f\n" +
 	"\vbucket_name\x18\x05 \x01(\tR\n" +
-	"bucketName\x1a\xbd\x01\n" +
+	"bucketName\x1a\x87\x01\n" +
 	"\x04Auth\x12\x1d\n" +
 	"\n" +
-	"jwt_secret\x18\x01 \x01(\tR\tjwtSecret\x12I\n" +
-	"\x13access_token_expire\x18\x02 \x01(\v2\x19.google.protobuf.DurationR\x11accessTokenExpire\x12K\n" +
-	"\x14refresh_token_expire\x18\x03 \x01(\v2\x19.google.protobuf.DurationR\x12refreshTokenExpireB\x1cZ\x1aartwork/internal/conf;confb\x06proto3"
+	"jwt_secret\x18\x01 \x01(\tR\tjwtSecret\x12.\n" +
+	"\x13access_token_expire\x18\x02 \x01(\tR\x11accessTokenExpire\x120\n" +
+	"\x14refresh_token_expire\x18\x03 \x01(\tR\x12refreshTokenExpireB\x1cZ\x1aartwork/internal/conf;confb\x06proto3"
 
 var (
 	file_conf_conf_proto_rawDescOnce sync.Once
@@ -672,13 +672,11 @@ var file_conf_conf_proto_depIdxs = []int32{
 	9,  // 9: kratos.api.Server.GRPC.timeout:type_name -> google.protobuf.Duration
 	9,  // 10: kratos.api.Data.Redis.read_timeout:type_name -> google.protobuf.Duration
 	9,  // 11: kratos.api.Data.Redis.write_timeout:type_name -> google.protobuf.Duration
-	9,  // 12: kratos.api.Data.Auth.access_token_expire:type_name -> google.protobuf.Duration
-	9,  // 13: kratos.api.Data.Auth.refresh_token_expire:type_name -> google.protobuf.Duration
-	14, // [14:14] is the sub-list for method output_type
-	14, // [14:14] is the sub-list for method input_type
-	14, // [14:14] is the sub-list for extension type_name
-	14, // [14:14] is the sub-list for extension extendee
-	0,  // [0:14] is the sub-list for field type_name
+	12, // [12:12] is the sub-list for method output_type
+	12, // [12:12] is the sub-list for method input_type
+	12, // [12:12] is the sub-list for extension type_name
+	12, // [12:12] is the sub-list for extension extendee
+	0,  // [0:12] is the sub-list for field type_name
 }
 
 func init() { file_conf_conf_proto_init() }
