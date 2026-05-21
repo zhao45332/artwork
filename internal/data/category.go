@@ -22,6 +22,22 @@ func NewCategoryRepo(data *Data, logger log.Logger) biz.CategoryRepo {
 	}
 }
 
+func (r *categoryRepo) List(ctx context.Context) ([]*biz.Category, error) {
+	var categoryModels []*Category
+	if err := r.data.db.WithContext(ctx).Order("name ASC").Find(&categoryModels).Error; err != nil {
+		return nil, err
+	}
+	categories := make([]*biz.Category, 0, len(categoryModels))
+	for _, categoryModel := range categoryModels {
+		categories = append(categories, &biz.Category{
+			ID:          categoryModel.ID,
+			Name:        categoryModel.Name,
+			Description: categoryModel.Description,
+		})
+	}
+	return categories, nil
+}
+
 // FindByID 根据ID查找分类
 func (r *categoryRepo) FindByID(ctx context.Context, id int64) (*biz.Category, error) {
 	categoryModel := &Category{}

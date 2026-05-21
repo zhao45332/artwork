@@ -3,7 +3,9 @@ package server
 import (
 	"fmt"
 	"io"
+	"path"
 	"strconv"
+	"strings"
 	"time"
 
 	artworkv1 "artwork/api/artwork/v1"
@@ -43,6 +45,7 @@ func NewHTTPServer(c *conf.Server, artwork *service.ArtworkService, auth *servic
 	userv1.RegisterUserServiceHTTPServer(srv, user)
 
 	registerMultipartUploadRoutes(srv, data, bucketName, logger)
+	registerAssetRoutes(srv, data, bucketName)
 
 	return srv
 }
@@ -203,7 +206,7 @@ func registerMultipartUploadRoutes(srv *kratosHttp.Server, data *data.Data, buck
 			})
 		}
 
-		url := fmt.Sprintf("/images/%s", objectName)
+		url := fmt.Sprintf("/v1/assets/%s", objectName)
 
 		return ctx.JSON(200, CompleteUploadResponse{
 			URL:        url,
@@ -213,4 +216,22 @@ func registerMultipartUploadRoutes(srv *kratosHttp.Server, data *data.Data, buck
 	})
 
 	logHelper.Info("分片上传路由注册成功")
+}
+
+func registerAssetRoutes(srv *kratosHttp.Server, data *data.Data, bucketName string) {
+	r := srv.Route("/")
+	r.GET("/v1/assets/{objectPath:.*}", func(ctx kratosHttp.Context) error {
+		objectPath := strings.TrimPrefix(ctx.Request().URL.Path, "/v1/assets/")
+		objectPath = path.Clean(strings.TrimPrefix(objectPath, "/"))
+		if objectPath == "." || objectPath == "" {
+			return ctx.Result(404, nil)
+		}
+		reader, err := data.GetImage(ctx.Request().Context(), objectPath, bucketName)
+		if err != nil {
+			return ctx.Result(404, nil)
+		}
+		defer reader.Close()
+		_, err = io.Copy(ctx.Response(), reader)
+		return err
+	})
 }

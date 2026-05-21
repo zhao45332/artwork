@@ -23,6 +23,18 @@ service UserService {
       body: "*"
     };
   }
+
+  rpc ListCategories (ListCategoriesRequest) returns (ListCategoriesReply) {
+    option (google.api.http) = {
+      get: "/v1/categories"
+    };
+  }
+}
+
+message CategoryInfo {
+  int64 id = 1;
+  string name = 2;
+  string description = 3;
 }
 
 message UserProfile {
@@ -59,4 +71,10 @@ message UpdateMyProfileRequest {
 
 message UpdateMyProfileReply {
   UserProfile user = 1;
+}
+
+message ListCategoriesRequest {}
+
+message ListCategoriesReply {
+  repeated CategoryInfo categories = 1;
 }

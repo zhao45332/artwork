@@ -6,46 +6,77 @@ import (
 	"gorm.io/gorm"
 )
 
+const (
+	ArtworkStatusDraft       int32 = 0
+	ArtworkStatusPublished   int32 = 1
+	ArtworkVisibilityPublic  int32 = 1
+	ArtworkVisibilityPrivate int32 = 2
+)
+
 // Artwork 画作模型
 type Artwork struct {
-	ID          int64          `gorm:"primaryKey;autoIncrement"`
-	Title       string         `gorm:"type:varchar(200);not null;index"` // 标题
-	Description string         `gorm:"type:text"`                        // 描述
-	Author      string         `gorm:"type:varchar(100);index"`          // 作者
-	Year        int32          `gorm:"index"`                            // 创作年份
-	Width       float64        `gorm:"type:decimal(10,2)"`               // 宽度（cm）
-	Height      float64        `gorm:"type:decimal(10,2)"`               // 高度（cm）
-	Material    string         `gorm:"type:varchar(100)"`                // 材质
-	Price       float64        `gorm:"type:decimal(12,2)"`               // 价格
-	IsCollected bool           `gorm:"default:false"`                    // 收藏状态
-	Location    string         `gorm:"type:varchar(200)"`                // 创作地点
-	Style       string         `gorm:"type:varchar(100)"`                // 风格
-	Technique   string         `gorm:"type:varchar(100)"`                // 技法
-	ImageURL    string         `gorm:"type:varchar(500)"`                // 图片URL
-	CategoryID  int64          `gorm:"index"`                            // 分类ID（一对多）
-	Category    *Category      `gorm:"foreignKey:CategoryID"`            // 分类关联
-	Tags        []*Tag         `gorm:"many2many:artwork_tags;"`          // 标签关联（多对多）
-	DeletedAt   gorm.DeletedAt `gorm:"index"`                            // 软删除
-	CreatedAt   time.Time      // 创建时间
-	UpdatedAt   time.Time      // 更新时间
+	ID            int64           `gorm:"primaryKey;autoIncrement"`
+	UserID        int64           `gorm:"not null;index"`
+	User          *User           `gorm:"foreignKey:UserID"`
+	Title         string          `gorm:"type:varchar(200);not null;index"`
+	Description   string          `gorm:"type:text"`
+	Author        string          `gorm:"type:varchar(100);index"`
+	Year          int32           `gorm:"index"`
+	Width         float64         `gorm:"type:decimal(10,2)"`
+	Height        float64         `gorm:"type:decimal(10,2)"`
+	Material      string          `gorm:"type:varchar(100)"`
+	Price         float64         `gorm:"type:decimal(12,2)"`
+	IsCollected   bool            `gorm:"default:false"`
+	Location      string          `gorm:"type:varchar(200)"`
+	Style         string          `gorm:"type:varchar(100)"`
+	Technique     string          `gorm:"type:varchar(100)"`
+	ImageURL      string          `gorm:"type:varchar(500)"`
+	CoverImageURL string          `gorm:"type:varchar(500)"`
+	CategoryID    int64           `gorm:"index"`
+	Category      *Category       `gorm:"foreignKey:CategoryID"`
+	Tags          []*Tag          `gorm:"many2many:artwork_tags;"`
+	Images        []*ArtworkImage `gorm:"foreignKey:ArtworkID"`
+	Status        int32           `gorm:"default:1;index"`
+	Visibility    int32           `gorm:"default:1;index"`
+	ViewCount     int64           `gorm:"default:0"`
+	LikeCount     int64           `gorm:"default:0"`
+	FavoriteCount int64           `gorm:"default:0"`
+	CommentCount  int64           `gorm:"default:0"`
+	ShareCount    int64           `gorm:"default:0"`
+	PublishAt     *time.Time
+	DeletedAt     gorm.DeletedAt `gorm:"index"`
+	CreatedAt     time.Time
+	UpdatedAt     time.Time
 }
 
-// TableName 指定表名
 func (Artwork) TableName() string {
 	return "artworks"
+}
+
+type ArtworkImage struct {
+	ID        int64  `gorm:"primaryKey;autoIncrement"`
+	ArtworkID int64  `gorm:"not null;index"`
+	URL       string `gorm:"type:varchar(500);not null"`
+	IsCover   bool   `gorm:"default:false"`
+	SortOrder int32  `gorm:"default:0"`
+	CreatedAt time.Time
+	UpdatedAt time.Time
+}
+
+func (ArtworkImage) TableName() string {
+	return "artwork_images"
 }
 
 // Category 分类模型
 type Category struct {
 	ID          int64      `gorm:"primaryKey;autoIncrement"`
-	Name        string     `gorm:"type:varchar(100);not null;uniqueIndex"` // 分类名称
-	Description string     `gorm:"type:text"`                              // 分类描述
-	Artworks    []*Artwork `gorm:"foreignKey:CategoryID"`                  // 画作关联
-	CreatedAt   time.Time  // 创建时间
-	UpdatedAt   time.Time  // 更新时间
+	Name        string     `gorm:"type:varchar(100);not null;uniqueIndex"`
+	Description string     `gorm:"type:text"`
+	Artworks    []*Artwork `gorm:"foreignKey:CategoryID"`
+	CreatedAt   time.Time
+	UpdatedAt   time.Time
 }
 
-// TableName 指定表名
 func (Category) TableName() string {
 	return "categories"
 }
@@ -53,25 +84,22 @@ func (Category) TableName() string {
 // Tag 标签模型
 type Tag struct {
 	ID         int64      `gorm:"primaryKey;autoIncrement"`
-	Name       string     `gorm:"type:varchar(50);not null;uniqueIndex"` // 标签名称
-	UsageCount int32      `gorm:"default:0"`                             // 使用次数
-	Artworks   []*Artwork `gorm:"many2many:artwork_tags;"`               // 画作关联（多对多）
-	CreatedAt  time.Time  // 创建时间
-	UpdatedAt  time.Time  // 更新时间
+	Name       string     `gorm:"type:varchar(50);not null;uniqueIndex"`
+	UsageCount int32      `gorm:"default:0"`
+	Artworks   []*Artwork `gorm:"many2many:artwork_tags;"`
+	CreatedAt  time.Time
+	UpdatedAt  time.Time
 }
 
-// TableName 指定表名
 func (Tag) TableName() string {
 	return "tags"
 }
 
-// ArtworkTag 画作标签关联表（GORM会自动创建，这里定义用于查询）
 type ArtworkTag struct {
 	ArtworkID int64 `gorm:"primaryKey"`
 	TagID     int64 `gorm:"primaryKey"`
 }
 
-// TableName 指定表名
 func (ArtworkTag) TableName() string {
 	return "artwork_tags"
 }
