@@ -1,6 +1,7 @@
 package data
 
 import (
+	"fmt"
 	"time"
 
 	"artwork/internal/conf"
@@ -34,11 +35,19 @@ func NewTokenManager(c *conf.Data) (*pkgAuth.TokenManager, error) {
 		if c.Auth.JwtSecret != "" {
 			secret = c.Auth.JwtSecret
 		}
-		if c.Auth.AccessTokenExpire != nil {
-			accessTTL = c.Auth.AccessTokenExpire.AsDuration()
+		if c.Auth.AccessTokenExpire != "" {
+			parsed, err := time.ParseDuration(c.Auth.AccessTokenExpire)
+			if err != nil {
+				return nil, fmt.Errorf("解析 access_token_expire 失败: %w", err)
+			}
+			accessTTL = parsed
 		}
-		if c.Auth.RefreshTokenExpire != nil {
-			refreshTTL = c.Auth.RefreshTokenExpire.AsDuration()
+		if c.Auth.RefreshTokenExpire != "" {
+			parsed, err := time.ParseDuration(c.Auth.RefreshTokenExpire)
+			if err != nil {
+				return nil, fmt.Errorf("解析 refresh_token_expire 失败: %w", err)
+			}
+			refreshTTL = parsed
 		}
 	}
 	return pkgAuth.NewTokenManager(secret, accessTTL, refreshTTL)
