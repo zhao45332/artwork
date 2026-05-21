@@ -1,0 +1,62 @@
+syntax = "proto3";
+
+package user.v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "artwork/api/user/v1;v1";
+option java_multiple_files = true;
+option java_package = "dev.kratos.api.user.v1";
+option java_outer_classname = "UserProtoV1";
+
+service UserService {
+  rpc GetUserProfile (GetUserProfileRequest) returns (GetUserProfileReply) {
+    option (google.api.http) = {
+      get: "/v1/users/{id}"
+    };
+  }
+
+  rpc UpdateMyProfile (UpdateMyProfileRequest) returns (UpdateMyProfileReply) {
+    option (google.api.http) = {
+      put: "/v1/users/me"
+      body: "*"
+    };
+  }
+}
+
+message UserProfile {
+  int64 id = 1;
+  string username = 2;
+  string nickname = 3;
+  string avatar_url = 4;
+  string bio = 5;
+  string email = 6;
+  int32 role = 7;
+  int32 status = 8;
+  int64 artwork_count = 9;
+  int64 follower_count = 10;
+  int64 following_count = 11;
+  int64 like_received_count = 12;
+  int64 favorite_received_count = 13;
+  google.protobuf.Timestamp created_at = 14;
+  google.protobuf.Timestamp updated_at = 15;
+}
+
+message GetUserProfileRequest {
+  int64 id = 1;
+}
+
+message GetUserProfileReply {
+  UserProfile user = 1;
+}
+
+message UpdateMyProfileRequest {
+  string nickname = 1;
+  string avatar_url = 2;
+  string bio = 3;
+}
+
+message UpdateMyProfileReply {
+  UserProfile user = 1;
+}

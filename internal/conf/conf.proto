@@ -45,7 +45,13 @@ message Data {
     bool use_ssl = 4;
     string bucket_name = 5;
   }
+  message Auth {
+    string jwt_secret = 1;
+    google.protobuf.Duration access_token_expire = 2;
+    google.protobuf.Duration refresh_token_expire = 3;
+  }
   Database database = 1;
   Redis redis = 2;
   MinIO minio = 3;
+  Auth auth = 4;
 }

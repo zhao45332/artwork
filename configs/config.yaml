@@ -22,3 +22,7 @@ data:
     secret_access_key: GXXu=h~9)_tQ%DHHsGqi
     use_ssl: false
     bucket_name: artwork
+  auth:
+    jwt_secret: artwork-dev-secret
+    access_token_expire: 2h
+    refresh_token_expire: 168h
